@@ -7,31 +7,76 @@ type MaybeBool {
 
 // Returns true if Maybe is none
 is_none(a: MaybeBool): Bool
-  ?a
+  case a {
+    none: Bool.true
+    some: Bool.false
+  }
+//  ?a
     
 // Returns true if Maybe is some
 is_some(a: MaybeBool): Bool
-  ?b
+  case a {
+    none: Bool.false
+    some: Bool.true
+  }
+ //?b
 
 // Returns true if both inputs are identical
 // eql(MaybeBool.none,             MaybeBool.none            ) -> true
-// eql(MaybeBool.some(Bool.false), MaybeBool.none            ) -> false
-// eql(MaybeBool.some(Bool.true),  MaybeBool.some(Bool.false)) -> false
 // eql(MaybeBool.some(Bool.false), MaybeBool.some(Bool.false)) -> true
 eql(a: MaybeBool, b: MaybeBool): Bool
-  ?c
+  case a b {
+    none none: Bool.true
+    some some: Bool.true
+    none some: Bool.false
+    some none: Bool.false
+  }
+//  ?c
 
 // Returns the value inside the MaybeBool.
 // If there is no value contained, returns v instead
-extract(a: MaybeBool, v: Bool): Bool
-  ?d
+test_default(a: MaybeBool, v: Bool): Bool
+  case a {
+    none: v
+    some: a.value 
+  }
+//  ?d
 
 // Create a MaybeBool from a Boolean
 // create(Bool.false) -> MaybeBool(Bool.false)
 create(a:Bool): MaybeBool
-  ?e
+  case a {
+    false: MaybeBool.some(a)
+    true:  MaybeBool.some(a)
+  }
+//  ?e
 
 // Returns the first input that is a MaybeBool.some
 // Returns MaybeBool.none if both are MaybeBool.none
 or(a: MaybeBool, b: MaybeBool) : MaybeBool 
-  ?f
+  case a {
+    none: case b {
+      none: MaybeBool.none
+      some: MaybeBool.some(b.value)
+      }
+    some: case b {
+            none: MaybeBool.some(a.value)
+            some: MaybeBool.some(b.value)
+
+      }
+  }
+//  ?f
+
+
+ex_01:_  //MaybeBool
+  let a = MaybeBool.none
+  let b = MaybeBool.none 
+  //is_none(a)  // Returns true if Maybe is none
+  //is_some(b)  // Returns true if Maybe is some
+  //eql(a, b)   // Returns true if both inputs are identical
+  //test_default(a)  // Returns the value inside the MaybeBool.
+  //create(false)   // Create a MaybeBool from a Boolean 
+  or(a, b)    // Returns the first input that is a MaybeBool.some
+    //MaybeBool.show(a)
+
+
