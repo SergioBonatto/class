@@ -7,44 +7,80 @@ type Nat {
 
 // Doubles a number
 dbl(a: Nat): Nat // double
-
-  ?b
+  case a {
+    zero: Nat.zero
+    succ: Nat.succ(Nat.succ(dbl(a.pred)))
+    }
+//  ?b
 
 // Addition
 add(a: Nat, b: Nat): Nat
-
-  ?a
+  case a {
+    zero: b
+    succ: case b{
+            zero: a
+            succ: Nat.succ(add(a, b.pred))
+            }
+  }
+//  ?a
 
 // Multiplication
 mul(a: Nat, b: Nat): Nat
-  
-  ?m
+  case a {
+    zero: Nat.zero
+    succ: case b {
+            zero: Nat.zero
+            succ: add(mul(a.pred, b), b)
+            }
+  }
+//  ?m
 
 // Subtraction
 // 4 - 5 = 0
 // 5 - 4 = 1
 sub(a: Nat, b: Nat): Nat
-
-  ?s
+  case a {
+    zero: Nat.zero
+    succ: case b {
+            zero: a
+            succ: sub(a.pred, b.pred)
+            }
+  }
+//  ?s
 
 // Factorial
 // 4! = 24
 fac(a: Nat): Nat 
-  
-  ?f
+  case a {
+    zero: Nat.zero
+    succ: case a.pred {
+            zero: a
+            succ: mul(a, fac(a.pred))
+            }
+  }
+//  ?f
 
 // Division
 // 1 / 2 = 0
 // x / 0 = 0
 // 5 / 2 = 2
-div(a: Nat, b: Nat): Nat // division
+//div(a: Nat, b: Nat): Nat // division
   
-  ?d
+//  ?d
 
 // Equal
 eql(a: Nat, b: Nat): Bool // Given 2 numbers, it returns true if the 2 are the same and false if they are different.
-  
-  ?e 
+  case a {
+    zero: case b {
+      zero: Bool.true
+      succ: Bool.false
+      }
+    succ: case b {
+      zero: Bool.false
+      succ: eql(a.pred, b.pred)
+      }
+  }
+//  ?e 
 
 // Do not use the "not" function to create the functions below
 
@@ -52,13 +88,41 @@ eql(a: Nat, b: Nat): Bool // Given 2 numbers, it returns true if the 2 are the s
 // 2 > 1 = True
 // 3 > 3 = False
 gtn(a: Nat, b: Nat): Bool // if A > B == True else false
-  
-  ?g
+  case a {
+    zero: Bool.false
+    succ: case b {
+            zero: Bool.true
+            succ: gtn(a.pred, b.pred)
+            }
+  }
+//  ?g
 
 // Lower than
 // 1 < 2 = True
 // 3 < 3 = False
 ltn(a: Nat, b: Nat): Bool // if A > B == False else true 
-  
-  ?l
+  case a {
+    zero: case b {
+            zero: Bool.false
+            succ: Bool.true
+      }
+    succ: case b {
+            zero: Bool.false
+            succ: ltn(a.pred, b.pred)
+      }
+  }
+//  ?l
 
+
+
+ex_04:_
+  let a = 4
+  let b = 9
+  //dbl(5)
+  //add(a, b)
+  //mul(a, b)
+  //sub(b, a)
+  //fac(4)
+  //eql(b, a)
+  //gtn(a, b)
+  ltn(b, a)
