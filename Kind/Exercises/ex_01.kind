@@ -27,10 +27,14 @@ is_some(a: MaybeBool): Bool
 eql(a: MaybeBool, b: MaybeBool): Bool
   case a b {
     none none: Bool.true
-    some some: Bool.true
-    none some: Bool.false
-    some none: Bool.false
-  }
+    some some: case a.value {
+      true: b.value
+      false: case b.value {
+        true:  Bool.false
+        false: Bool.true
+      }
+    }
+  } default Bool.false
 //  ?c
 
 // Returns the value inside the MaybeBool.
