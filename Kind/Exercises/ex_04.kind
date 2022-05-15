@@ -65,6 +65,15 @@ fac(a: Nat): Nat
 // x / 0 = 0
 // 5 / 2 = 2
 //div(a: Nat, b: Nat): Nat // division
+div(a: Nat, b: Nat): Nat // division                                                            
+case a {                                                                                     
+  zero: Nat.zero                                                                              
+  succ: case sub(Nat.succ(a), b) {                                                          
+          zero: Nat.zero                                                                          
+          succ: Nat.succ(div(sub(a, b), b))                                                       
+          }                                                                                         
+  } 
+
   
 //  ?d
 
