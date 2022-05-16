@@ -10,30 +10,23 @@ fst(pair: PairBool): Bool
     new: pair.fst
   }
 
-//  ?a
-
 // Returns the second element of a pair
 snd(pair: PairBool): Bool
   case pair {
     new: pair.snd
   }
-//  ?b
 
 // Returns true if both elements of a PairBool are identical
 eql_elements(a: PairBool): Bool 
   case a {
     new: case a.fst {
-           true: case a.snd {
-                   true:  Bool.true
-                   false: Bool.false
-      }
+           true: a.snd
            false: case a.snd {
                    true:  Bool.false
                    false: Bool.true
        }
      }
   }
-//  ?c
   
 // Returns true if both Pairs are equal 
 // eql(PairBool.new(false, false), PairBool.new(true, true)) -> false 
@@ -55,7 +48,6 @@ eql(a: PairBool, b: PairBool): Bool
                } default Bool.false
     }
   }
-//  ?f
 
 // Returns true if both Pairs are different
 // eql(PairBool.new(false, false), PairBool.new(true, true)) -> true 
@@ -78,22 +70,9 @@ xor(a: PairBool, b: PairBool): Bool
       }                       
      } 
   
-
-//  ?f
-  
 // Creates a PairBool from 2 Booleans
 create(a: Bool, b: Bool): PairBool
-  case a {
-    true: case b {
-            true:  PairBool.new(a, b)
-            false: PairBool.new(a, b)
-      }
-    false: case b {
-            true:  PairBool.new(a, b)
-            false: PairBool.new(a, b)
-       }
-  }
-//  ?h
+  PairBool.new(a, b)
 
 // Inverts the values of a PairBool
 // neg(PairBool.new(false, false) -> PairBool.new(true, true)
@@ -101,19 +80,17 @@ create(a: Bool, b: Bool): PairBool
 agoraneg(pair: PairBool): PairBool
   case pair {
     new: case pair.fst pair.snd {
-           true   true: PairBool.new(false, false)
+           true  true:  PairBool.new(false, false)
            false false: PairBool.new(true, true)
      } default PairBool.new(pair.snd, pair.fst)
   }
 
-//  ?i
 
 // Inverts the 2 elements of a PairBool
 swap(pair: PairBool): PairBool 
   case pair {
     new: PairBool.new(pair.snd, pair.fst)
   }
-//  ?k
 
 ex_02: PairBool
   let a = false
@@ -123,7 +100,6 @@ ex_02: PairBool
   //eql_elements({a, b})   // Returns true if both elements of a PairBool are identical
   //eql({true, false}, {true, false})
   //xor({false, false}, {true, false})
-  //create(a, bi)
+  create(a, b)
   //agoraneg({a, b})
-  swap({a, b})
-
+  //swap({a, b})

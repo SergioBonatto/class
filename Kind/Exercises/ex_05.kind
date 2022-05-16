@@ -16,21 +16,18 @@ first<A: Type, B: Type>(pair: Pair<A,B>): A
   case pair {
     new: pair.fst
   }
-//  ?a
 
 // Returns the second element of a pair
 second<A: Type, B: Type>(pair: Pair<A,B>): B
   case pair {
     new: pair.snd
   }
-//  ?a
 
 // Applies a function to both elements of a Pair
 map<A: Type, B: Type>(fn: A -> B, pair: Pair<A,A>): Pair<B,B>
   case pair {
     new: Pair.new!!(fn(pair.fst), fn(pair.snd))
   }
-//  ?a
 
 ex_05:_
   let a = {1, 2}

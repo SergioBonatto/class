@@ -21,7 +21,6 @@ zip<A: Type, B: Type>(xs: List<A>, ys: List<B>): List<Pair<A,B>>
             cons: List.cons!(Pair.new!!(xs.head, ys.head), zip!!(xs.tail, ys.tail))
            }
   }
-//  ?a
 
 // Returns the smallest element of a List
 
@@ -62,7 +61,6 @@ smallest(xs: List<Nat>): Nat
                     }
            }
   }
-//  ?s
 
 // Roubalheira 2, o inimigo agora é outro
 // resgatei a função eql do ex_04 e usei
@@ -106,7 +104,6 @@ delete_smallest(xs: List<Nat>): List<Nat>
                    }
             }
   }
-//  ?d
 
 // Returns the same list, in ascending order
 sort_ascending(xs: List<Nat>): List<Nat>
@@ -119,7 +116,6 @@ sort_ascending(xs: List<Nat>): List<Nat>
 
     // List.cons!(smallest(xs), sort_ascending(xs.tail))
   }
-//  ?a
 
 // Returns an element at an index from the list
 // if there is an element at that index

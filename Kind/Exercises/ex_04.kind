@@ -11,7 +11,6 @@ dbl(a: Nat): Nat // double
     zero: Nat.zero
     succ: Nat.succ(Nat.succ(dbl(a.pred)))
     }
-//  ?b
 
 // Addition
 add(a: Nat, b: Nat): Nat
@@ -22,7 +21,6 @@ add(a: Nat, b: Nat): Nat
             succ: Nat.succ(add(a, b.pred))
             }
   }
-//  ?a
 
 // Multiplication
 mul(a: Nat, b: Nat): Nat
@@ -33,7 +31,6 @@ mul(a: Nat, b: Nat): Nat
             succ: add(mul(a.pred, b), b)
             }
   }
-//  ?m
 
 // Subtraction
 // 4 - 5 = 0
@@ -46,7 +43,6 @@ sub(a: Nat, b: Nat): Nat
             succ: sub(a.pred, b.pred)
             }
   }
-//  ?s
 
 // Factorial
 // 4! = 24
@@ -58,7 +54,6 @@ fac(a: Nat): Nat
             succ: mul(a, fac(a.pred))
             }
   }
-//  ?f
 
 // Division
 // 1 / 2 = 0
@@ -74,8 +69,6 @@ case a {
           }
   }
 
-//  ?d
-
 // Equal
 eql(a: Nat, b: Nat): Bool // Given 2 numbers, it returns true if the 2 are the same and false if they are different.
   case a {
@@ -88,7 +81,6 @@ eql(a: Nat, b: Nat): Bool // Given 2 numbers, it returns true if the 2 are the s
       succ: eql(a.pred, b.pred)
       }
   }
-//  ?e 
 
 // Do not use the "not" function to create the functions below
 
@@ -103,7 +95,6 @@ gtn(a: Nat, b: Nat): Bool // if A > B == True else false
             succ: gtn(a.pred, b.pred)
             }
   }
-//  ?g
 
 // Lower than
 // 1 < 2 = True
@@ -119,8 +110,6 @@ ltn(a: Nat, b: Nat): Bool // if A > B == False else true
             succ: ltn(a.pred, b.pred)
       }
   }
-//  ?l
-
 
 // Minimum
 // min(2, 3) = 2
@@ -143,7 +132,6 @@ min(a: Nat, b: Nat): Nat // if A > B == False else true
             false: b
             }
   }
-// ?m2
 
 // Maximum
 // max(2, 3) = 3
@@ -156,8 +144,6 @@ max(a: Nat, b: Nat): Nat // if A > B then A else B
             succ: Nat.succ(max(a.pred, b.pred))
       }
   }
-//  ?m3
-
 
 // Divides a number by two
 hlf(a: Nat): Nat
@@ -168,12 +154,10 @@ hlf(a: Nat): Nat
             succ: Nat.succ((hlf(sub(a, Nat.succ(Nat.succ(Nat.zero))))))
             }
   }
-//  ?h
-
 
 ex_04:_
   let a = 4
-  let b = 299
+  let b = 2
   //dbl(5)
   //add(a, b)
   //mul(a, b)

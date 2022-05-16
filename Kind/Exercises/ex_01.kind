@@ -28,12 +28,12 @@ eql(a: MaybeBool, b: MaybeBool): Bool
   case a b {
     none none: Bool.true
     some some: case a.value {
-      true: b.value
-      false: case b.value {
-        true:  Bool.false
-        false: Bool.true
-      }
-    }
+                 true: b.value
+                 false: case b.value {
+                          true:  Bool.false
+                          false: Bool.true
+                        }
+               }
   } default Bool.false
 //  ?c
 
@@ -49,10 +49,11 @@ test_default(a: MaybeBool, v: Bool): Bool
 // Create a MaybeBool from a Boolean
 // create(Bool.false) -> MaybeBool(Bool.false)
 create(a:Bool): MaybeBool
-  case a {
-    false: MaybeBool.some(a)
-    true:  MaybeBool.some(a)
-  }
+  MaybeBool.some(a)
+  //case a {
+  //  false: MaybeBool.some(a)
+  //  true:  MaybeBool.some(a)
+ // }
 //  ?e
 
 // Returns the first input that is a MaybeBool.some
@@ -74,13 +75,14 @@ or(a: MaybeBool, b: MaybeBool) : MaybeBool
 
 ex_01:_  //MaybeBool
   let a = MaybeBool.none
-  let b = MaybeBool.none 
+  let b = MaybeBool.some(Bool.true)
+  let v = Bool.false
   //is_none(a)  // Returns true if Maybe is none
   //is_some(b)  // Returns true if Maybe is some
   //eql(a, b)   // Returns true if both inputs are identical
-  //test_default(a)  // Returns the value inside the MaybeBool.
-  //create(false)   // Create a MaybeBool from a Boolean 
-  or(a, b)    // Returns the first input that is a MaybeBool.some
+  //test_default(b, v)  // Returns the value inside the MaybeBool.
+  create(false)   // Create a MaybeBool from a Boolean 
+  //or(a, b)    // Returns the first input that is a MaybeBool.some
     //MaybeBool.show(a)
 
 

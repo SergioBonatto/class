@@ -9,11 +9,7 @@ type Nat {
 // 2 + 1 = 3
 // 0 + 1 = 1
 inc(a: Nat): Nat  
-  case a {
-    zero: Nat.succ(a)
-    succ: Nat.succ(a)
-  }
-//  ?i
+  Nat.succ(a)
 
 // Decrement
 // 2 - 1 = 1
@@ -23,7 +19,6 @@ dec(a: Nat): Nat
     zero: Nat.zero
     succ: a.pred
   }
- // ?d
 
 is_zero(a: Nat): Bool
   case a {
@@ -31,12 +26,10 @@ is_zero(a: Nat): Bool
     succ: Bool.false
   }
 
- // ?a
-
-ex_03: Bool
+ex_03:_
   let a = 0
   let b = 3
-  //inc(a)
+  inc(a)
   //dec(b)
-  is_zero(b)
+  //is_zero(b)
 
