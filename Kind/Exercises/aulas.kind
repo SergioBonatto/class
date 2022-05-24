@@ -1,0 +1,82 @@
+type Cofre {
+  new(senha: Bits)
+}
+
+// Vai ser convertida em um número de 3 dígitos
+// Senha de exemplo: 1000 1110 1001  1 7 9
+// convertida em um número, 4 bits = 1 digito do número
+
+
+List.fold<A: Type>(list: List<A>): <P: Type> -> P -> (A -> P -> P) -> P
+  <P> (nil, cons)
+  case list {
+    nil : nil,
+    cons: cons(list.head, List.fold<A>(list.tail)<P>(nil, cons))
+  }
+
+to_list_go(b: Bits, xs: List<Bits>): List<Bits>
+  case b { 
+    e: xs
+    o: to_list_go(b.pred, List.cons<Bits>(Bits.o(Bits.e), xs))
+    i: to_list_go(b.pred, List.cons<Bits>(Bits.i(Bits.e), xs))
+  }
+
+to_list(b: Bits): List<Bits>
+  List.reverse<Bits>(to_list_go(b, List.nil<Bits>))
+
+new_list(xs: List<Bits>): List<List<Bits>>
+  new_list_go(xs, 4, 4, [], []) 
+
+new_list_go(xs: List<Bits>, c: Nat, d: Nat, ys: List<List<Bits>>, zs: List<Bits>): List<List<Bits>>
+ case c {
+    zero: new_list_go(xs,d, d, List.cons!(zs, ys), [])
+    succ: case xs {
+          nil: ys
+          cons: new_list_go(xs.tail, c.pred, d,  ys, List.cons!(xs.head, zs))
+            }
+  }
+//
+// list_to_string(xs: List<List<Bits>>, ys: List<String>): List<String>
+//   case xs {
+//     nil: ys
+//     cons: case xs.head {
+//             nil: ys
+//             cons: List.cons!(String.cons!(xs.head), list_to_string(xs.tail, ys))
+//
+//            }
+// }
+//i
+
+list_to_listbit(xs: List<Nat>): List<Bits> -> Bits -> (Nat -> Bits -> Bits) -> Bits
+  <ys> (nil, cons)
+ ?lista 
+// case xs {
+    // nil: List.nil!
+    // cons: List.cons!(xs.head, List.fold!(xs.tail) )
+  // }
+
+
+            //100011101001 -> 179
+find_password(cofre: Cofre): Nat
+  let senha       =  cofre@senha          //=  100011101001
+  let to_list_go  =  to_list(senha)
+  log(List.show<Bits>(Bits.show, to_list_go))
+  3  
+
+
+
+
+
+
+
+aulas: _
+  let cofre_a = Cofre.new(Bits.read("100011101001")) // 1 7 9
+  //let cofre_b = Cofre.new(Bits.read("001010001100")) // 4 1 3
+  //let cofre_c = Cofre.new(Bits.read("011000001110")) // 6 0 7
+  // find_password(cofre_a)
+  let lista_a = to_list(cofre_a@senha)
+  let novalista = new_list(List.reverse!(lista_a))
+  List.show!(List.show!(Bits.show), novalista )
+  // nova_lista(cofre_a)
+  // 100101110001
+// [[1,0,0,1],[0,1,1,1],[0,0,0,1]]
