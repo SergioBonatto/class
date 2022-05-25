@@ -65,7 +65,10 @@ map<A: Type, B: Type>(fn: A -> B, xs: List<A>): List<B>
     cons: List.cons!(fn(xs.head), map!!(fn, xs.tail))
   }
 //  ?a
+<<<<<<< HEAD
 >>>>>>> 1b0a939 (add ex_06)
+=======
+>>>>>>> 9a2f0b8 (Add files via upload)
 
 // Converts Neg to Nat
 neg_to_nat(n: Neg): Nat
@@ -254,4 +257,7 @@ ex_06:_
 
 
 
+<<<<<<< HEAD
 >>>>>>> 1b0a939 (add ex_06)
+=======
+>>>>>>> 9a2f0b8 (Add files via upload)
