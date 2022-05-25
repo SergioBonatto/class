@@ -65,20 +65,6 @@ extract(a: MaybeBool, v: Bool): Bool
     none: v
     some: a.value
   }
-  case a b {
-    none none: Bool.true
-    some some: case a.value {
-                 true: b.value
-                 false: case b.value {
-                          true:  Bool.false
-                          false: Bool.true
-                        }
-               }
-  } default Bool.false
-//  ?c
-
-// Returns the value inside the MaybeBool.
-// If there is no value contained, returns v instead
   // case a b {
     // none none: Bool.true
     // some some: case a.value {
@@ -103,21 +89,20 @@ test_default(a: MaybeBool, v: Bool): Bool
 // Create a MaybeBool from a Boolean
 // create(Bool.false) -> MaybeBool(Bool.false)
 create(a:Bool): MaybeBool
-  // MaybeBool.some(a)
-  case a {
-    false: MaybeBool.some(a)
-    true:  MaybeBool.some(a)
-  }
-  // MaybeBool.some(a)
-  //case a {
-  //  false: MaybeBool.some(a)
-  //  true:  MaybeBool.some(a)
- // }
-//  ?e
+  MaybeBool.some(a)
+  // case a {
+    // false: MaybeBool.some(a)
+    // true:  MaybeBool.some(a)
+  // }
 
 // Returns the first input that is a MaybeBool.some
 // Returns MaybeBool.none if both are MaybeBool.none
 or(a: MaybeBool, b: MaybeBool) : MaybeBool 
+  case a b {
+    none none: MaybeBool.none
+    none some: MaybeBool.some(b.value)
+  }default MaybeBool.some(a.value)
+
   // case a {
   //   none: case b{
   //     none: MaybeBool.none
@@ -128,10 +113,6 @@ or(a: MaybeBool, b: MaybeBool) : MaybeBool
   //     some: MaybeBool.soma(a.value)
   //   }
   // }
-  case a b {
-    none none: MaybeBool.none
-    none some: MaybeBool.some(b.value)
-  }default MaybeBool.some(a.value)
 
 ex_01: IO<Unit>
   IO {
@@ -164,15 +145,15 @@ ex_01: IO<Unit>
 //  ?f
 
 
-ex_01:_  //MaybeBool
-  let a = MaybeBool.none
-  let b = MaybeBool.some(Bool.true)
-  let v = Bool.false
+// ex_01:_  //MaybeBool
+  // let a = MaybeBool.none
+  // let b = MaybeBool.some(Bool.true)
+  // let v = Bool.false
   //is_none(a)  // Returns true if Maybe is none
   //is_some(b)  // Returns true if Maybe is some
   //eql(a, b)   // Returns true if both inputs are identical
   //test_default(b, v)  // Returns the value inside the MaybeBool.
-  create(false)   // Create a MaybeBool from a Boolean 
+  // create(false)   // Create a MaybeBool from a Boolean
   //or(a, b)    // Returns the first input that is a MaybeBool.some
     //MaybeBool.show(a)
 

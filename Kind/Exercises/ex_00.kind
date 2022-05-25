@@ -105,24 +105,24 @@ xnor(a: Bool, b: Bool): Bool
   // ?x2
 
 
-// ex_00: IO<Unit>
-  // IO {
-    // Tests._00.is_true(is_true)
-    // Tests._00.is_false(is_false)
-    // Tests._00.neg(neg)
-    // Tests._00.and(and)
-    // Tests._00.or(or)
-    // Tests._00.eql(eql)
-    // Tests._00.xor(xor)
-    // Tests._00.nor(nor)
-    // Tests._00.nand(nand)
-    // Tests._00.xnor(xnor)
-  // }
-ex_00: Bool
-  let a = true
-  let b = false
-  let c = true
-  let d = false
+ex_00: IO<Unit>
+  IO {
+    Tests._00.is_true(is_true)
+    Tests._00.is_false(is_false)
+    Tests._00.neg(neg)
+    Tests._00.and(and)
+    Tests._00.or(or)
+    Tests._00.eql(eql)
+    Tests._00.xor(xor)
+    Tests._00.nor(nor)
+    Tests._00.nand(nand)
+    Tests._00.xnor(xnor)
+  }
+// ex_00: Bool
+  // let a = true
+  // let b = false
+  // let c = true
+  // let d = false
 //  is_true(a)  // Returns true if input is true
 //  is_false(b)   // Returns true if input is false
 //  neg(b)      // Returns the opposite of a Bool
@@ -132,4 +132,4 @@ ex_00: Bool
 //  xor(a, b)   // Returns true if both inputs are different
 //  nor(d, b)   // Returns true if both inputs are false
 //  nand(c, a)  // Returns false only if both inputs are true
-  xnor(b,c)   // Returns true if both inputs are identical
+  // xnor(b,c)   // Returns true if both inputs are identical
