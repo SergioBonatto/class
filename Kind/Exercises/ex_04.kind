@@ -173,8 +173,12 @@ ex_04:_
   //add(a, b)
   //mul(a, b)
   //sub(b, a)
-  //fac(4)
+  fac(9)
   //eql(b, a)
   //gtn(a, b)
+<<<<<<< HEAD
   ltn(b, a)
 >>>>>>> e5f1f58 (Add files via upload)
+=======
+  //ltn(b, a)
+>>>>>>> 7afdde3 (add ex_07 and edit ex_04)
