@@ -1,10 +1,15 @@
+<<<<<<< HEAD
 // Basic exercises involving Lists
+=======
+// Advanced exercises involving Lists
+>>>>>>> 0a2efdc (add new ex and game)
 
 type List <A: Type> {
   nil
   cons(head: A, tail: List<A>)
 }
 
+<<<<<<< HEAD
 // Returns the head of the List
 head<A: Type>(xs: List<A>): Maybe<A>
   ?head
@@ -49,3 +54,153 @@ reverse<A: Type>(xs: List<A>): List<A>
 
 reverse.go<A: Type>(new_list: List<A>, old_list: List<A>): List<A>
   ?r
+=======
+type Maybe <A: Type> {
+  none
+  some(value: A)
+}
+
+// Returns pairs of the elements of the 2 input lists on the same index
+// Ex: zip!!([1,2], ["a","b","c"]) == [{1, "a"}, {2 , "b"}]
+// Ex: zip!!(["a", "b"], [3, 5])   == [{"a", 3}, {2 , "b"}]
+zip<A: Type, B: Type>(xs: List<A>, ys: List<B>): List<Pair<A,B>>
+  case xs {
+    nil: List.nil!
+    cons: case ys {
+            nil: List.nil!
+            cons: List.cons!(Pair.new!!(xs.head, ys.head), zip!!(xs.tail, ys.tail))
+           }
+  }
+
+// Returns the smallest element of a List
+
+// -------- Roubalheira descarada --------
+// o que eu fiz? Roubei, na cara dura
+// peguei a função gtn do ex_04 e
+// apliquei no smallest
+
+gtn(a: Nat, b: Nat): Bool // if A > B == True else false
+  case a {
+    zero: Bool.false
+    succ: case b {
+            zero: Bool.true
+            succ: gtn(a.pred, b.pred)
+            }
+  }
+
+// caso xs seja vazio, retorna zero
+// caso tenha algo
+// se não tiver um corpo/tail, retorna a cabeça
+// se tirver uma tail, eu verifico se a
+// head é maior que a head da tail
+// se for, a função roda de novo
+// exluindo a head
+// se não for, eu crio uma nova lista só
+// com a head e a tail da tail,
+// excluindo a head da tail
+// e rodo a função nessa nova lista
+
+smallest(xs: List<Nat>): Nat
+  case xs {
+    nil: Nat.zero
+    cons: case xs.tail {
+            nil: xs.head
+            cons: case gtn(xs.head, xs.tail.head) {
+                    true: smallest(xs.tail)
+                    false: smallest(List.cons!(xs.head, xs.tail.tail))
+                    }
+           }
+  }
+
+// Roubalheira 2, o inimigo agora é outro
+// resgatei a função eql do ex_04 e usei
+// junto com o smallest para a função
+// delete_smallest
+
+// Equal
+eql(a: Nat, b: Nat): Bool // Given 2 numbers, it returns true if the 2 are the same and false if they are different.
+  case a {
+    zero: case b {
+      zero: Bool.true
+      succ: Bool.false
+      }
+    succ: case b {
+      zero: Bool.false
+      succ: eql(a.pred, b.pred)
+      }
+  }
+
+
+// agora onde endoidei
+// vejo se a lista é vazia, se for, retorna vazio
+// caso não seja, vejo se há mais de um elemento
+// caso não tenha, retorna vazio
+// caso tenha mais de um elemento, vejo
+// se a head é igual ao menor elemento da lista
+// caso seja, retorno só a tail
+// caso não seja, construo uma nova
+// lista com a head mais o resultado da
+// função com a head da tail
+
+// Returns the same list without the smallest element
+delete_smallest(xs: List<Nat>): List<Nat>
+  case xs {
+    nil: List.nil!
+    cons: case eql(xs.head, smallest(xs)){
+                    true: xs.tail
+                    false: List.cons!(xs.head, delete_smallest(xs.tail))
+                   }
+            }
+  
+
+// Returns the same list, in ascending order
+
+sort_ascending(xs: List<Nat>): List<Nat>
+  case xs {
+    nil: List.nil!
+    cons: List.cons!(smallest(xs), (sort_ascending(delete_smallest(xs))))
+  }
+  
+
+// Returns an element at an index from the list
+// if there is an element at that index
+//   returns Maybe.some!(element)
+// else
+//   returns Maybe.none!
+get<A: Type>(idx: Nat, xs: List<A>): Maybe<A>
+   case xs {
+     nil: Maybe.none!
+     cons:case idx {
+            zero: Maybe.none!
+            succ: case idx.pred {
+                    zero: Maybe.some!(xs.head)
+                    succ: get!(idx.pred, xs.tail)
+                  }
+          }
+    }
+
+// Removes all elements that does not match a condition
+// List.filter<Nat>(Nat.odd, [1, 2, 3, 4, 5]) = [1, 3, 5]
+filter<A: Type>(f: A -> Bool, xs: List<A>): List<A>
+  case xs {
+    nil: List.nil!
+    cons: case f(xs.head) {
+            false: filter!(f)(xs.tail)
+            true : List.cons!(xs.head, filter!(f)(xs.tail))
+           }
+  }
+
+ex_08:_
+  let a = [3, 1, 5, 2, 4]
+  let b = ["a", "b", "c", "d"]
+  //List.show!(Pair.show!!(Nat.show, (x) x), zip!!(a, b))
+  //smallest(a)
+  //List.show!(Nat.show, delete_smallest(a))
+  //List.show!(Nat.show, sort_ascending(a))
+  //Maybe.show!(Nat.show, get!(3, a))
+  List.show!(Nat.show, filter!(Nat.odd, a))
+
+
+
+
+>>>>>>> 0a2efdc (add new ex and game)
