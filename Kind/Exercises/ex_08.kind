@@ -1,31 +1,15 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 // Basic exercises involving Lists
-=======
 // Advanced exercises involving Lists
->>>>>>> 0a2efdc (add new ex and game)
-=======
-// Basic exercises involving Lists
->>>>>>> 939547b (add new ex)
 
 type List <A: Type> {
   nil
   cons(head: A, tail: List<A>)
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 // Returns the head of the List
 head<A: Type>(xs: List<A>): Maybe<A>
   ?head
 
-// Returns the list without the first element
-tail<A: Type>(xs: List<A>): List<A>
-  ?a
-
-// Returns the length of a list
-length<A: Type>(xs: List<A>): Nat
-  ?a
 
 // Returns the last element of a list
 last<A: Type>(xs: List<A>): Maybe<A>
@@ -35,9 +19,6 @@ last<A: Type>(xs: List<A>): Maybe<A>
 init<A: Type>(xs: List<A>): List<A>
   ?init
 
-// Concatenates two lists
-concat<A: Type>(xs: List<A>, ys: List<A>): List<A>
-  ?a
 
 // Removes n elements from the start of the list
 // List.drop<Nat>(3, [1,2,3,4,5]) -> [4, 5]
@@ -49,30 +30,13 @@ drop<A: Type>(n: Nat, xs: List<A>): List<A>
 take<A: Type>(n: Nat, xs: List<A>): List<A>
   ?take
 
-// Applies a function to all elements of a list
-map<A: Type, B: Type>(fn: A -> B, xs: List<A>): List<B>
-  ?a
-
-// Returns the same list, with the order reversed
-reverse<A: Type>(xs: List<A>): List<A>
-  reverse.go<A>(List.nil<A>, xs)
-
-reverse.go<A: Type>(new_list: List<A>, old_list: List<A>): List<A>
-  ?r
-=======
-type Maybe <A: Type> {
-  none
-  some(value: A)
-}
 
 // Returns pairs of the elements of the 2 input lists on the same index
 // Ex: zip!!([1,2], ["a","b","c"]) == [{1, "a"}, {2 , "b"}]
 // Ex: zip!!(["a", "b"], [3, 5])   == [{"a", 3}, {2 , "b"}]
 zip<A: Type, B: Type>(xs: List<A>, ys: List<B>): List<Pair<A,B>>
-=======
 // Returns the list without the first element
 tail<A: Type>(xs: List<A>): List<A>
->>>>>>> 939547b (add new ex)
   case xs {
     nil: List.nil!
     cons: xs.tail
@@ -132,9 +96,6 @@ reverse.go<A: Type>(new_list: List<A>, old_list: List<A>): List<A>
     cons: reverse.go!(List.cons!(old_list.head, new_list), old_list.tail)
   }
 
-<<<<<<< HEAD
->>>>>>> 0a2efdc (add new ex and game)
-=======
 ex_06:_
   let a = [1, 2, 3, 4]
   let b = [5, 6, 7]
@@ -143,4 +104,3 @@ ex_06:_
   //List.show!(Nat.show, concat!(a, b))
   //List.show!(Nat.show, map!!(Nat.add(2), a))
   List.show!(Nat.show, reverse!(a))
->>>>>>> 939547b (add new ex)

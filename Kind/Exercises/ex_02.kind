@@ -6,8 +6,7 @@ type PairBool {
 
 // Returns the first element of a pair
 fst(pair: PairBool): Bool
-<<<<<<< HEAD
-  case pair{
+  case pair {
     new: pair.fst
   }
 
@@ -28,10 +27,6 @@ eql_elements(pair: PairBool): Bool
       }
     }
   }
-=======
-  case pair {
-    new: pair.fst
-  }
 
 // Returns the second element of a pair
 snd(pair: PairBool): Bool
@@ -50,17 +45,12 @@ eql_elements(a: PairBool): Bool
        }
      }
   }
-<<<<<<< HEAD
 //  ?c
->>>>>>> 95d98bb (Add files via upload)
-=======
->>>>>>> f781646 (refatorei e to terminando o 7)
   
 // Returns true if both Pairs are equal 
 // eql(PairBool.new(false, false), PairBool.new(true, true)) -> false 
 // eql(PairBool.new(true, false), PairBool.new(true, false)) -> true
 eql(a: PairBool, b: PairBool): Bool
-<<<<<<< HEAD
   case a {
     new: ?a
   }
@@ -106,23 +96,22 @@ ex_02: IO<Unit>
   }
 // let a = PairBool.new(true,false)
 // let b = false
-=======
-  case a b {
-    new new: case a.fst a.snd {
-               true true: case b.fst b.snd {
-                             true true: Bool.true
-               } default Bool.false
-               false false: case b.fst b.snd {
-                             false false: Bool.true
-               } default Bool.false
-               true false: case b.fst b.snd {
-                             true false: Bool.true
-               } default Bool.false
-               false true: case b.fst b.snd {
-                             false true: Bool.true
-               } default Bool.false
-    }
-  }
+  // case a b {
+    // new new: case a.fst a.snd {
+               // true true: case b.fst b.snd {
+                             // true true: Bool.true
+               // } default Bool.false
+               // false false: case b.fst b.snd {
+                             // false false: Bool.true
+               // } default Bool.false
+               // true false: case b.fst b.snd {
+                             // true false: Bool.true
+               // } default Bool.false
+               // false true: case b.fst b.snd {
+                             // false true: Bool.true
+               // } default Bool.false
+    // }
+  // }
 
 // Returns true if both Pairs are different
 // eql(PairBool.new(false, false), PairBool.new(true, true)) -> true 
@@ -175,12 +164,6 @@ ex_02: PairBool
   //eql_elements({a, b})   // Returns true if both elements of a PairBool are identical
   //eql({true, false}, {true, false})
   //xor({false, false}, {true, false})
-  create(a, b)
+  // create(a, b)
   //agoraneg({a, b})
-<<<<<<< HEAD
   swap({a, b})
-
->>>>>>> 95d98bb (Add files via upload)
-=======
-  //swap({a, b})
->>>>>>> f781646 (refatorei e to terminando o 7)

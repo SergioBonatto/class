@@ -15,12 +15,12 @@ inc(a: Nat): Nat
 // 2 - 1 = 1
 // 0 - 1 = 0
 dec(a: Nat): Nat
-<<<<<<< HEAD
-  ?d
+  case a {
+    zero: Nat.zero
+     succ: a.pred
+   }
 
-is_zero(a: Nat): Bool
-  ?a
-
+ // ?d
 
 ex_03: _
   IO {
@@ -28,7 +28,7 @@ ex_03: _
     Tests._03.dec(dec)
     Tests._03.is_zero(is_zero)
   }
-=======
+is_zero(a: Nat): Bool
   case a {
     zero: Nat.zero
     succ: a.pred
@@ -47,4 +47,3 @@ ex_03:_
   //dec(b)
   //is_zero(b)
 
->>>>>>> 8aa467a (Add files via upload)

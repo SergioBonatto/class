@@ -54,9 +54,6 @@ fac(a: Nat): Nat
             succ: mul(a, fac(a.pred))
             }
   }
-
-<<<<<<< HEAD
-=======
 // Division
 // 1 / 2 = 0
 // x / 0 = 0
@@ -71,12 +68,7 @@ case a {
           }
   }
 
-<<<<<<< HEAD
-//  ?d
 
->>>>>>> e5f1f58 (Add files via upload)
-=======
->>>>>>> f781646 (refatorei e to terminando o 7)
 // Equal
 eql(a: Nat, b: Nat): Bool // Given 2 numbers, it returns true if the 2 are the same and false if they are different.
   case a {
@@ -118,40 +110,34 @@ ltn(a: Nat, b: Nat): Bool // if A > B == False else true
             succ: ltn(a.pred, b.pred)
       }
   }
-<<<<<<< HEAD
 //  ?l
-
-<<<<<<< HEAD
-// Minimum
-// min(2, 3) = 2
-// min(4, 1) = 1
-min(a: Nat, b: Nat): Nat // if A < B then A else B
-  
-  ?m2
-
-// Maximum
-// max(2, 3) = 3
-// max(4, 1) = 4
-max(a: Nat, b: Nat): Nat // if A > B then A else B
-  
-  ?m3
-
-
-// Divides a number by two
-// 2 / 2 = 1
-// 5 / 2 = 2
-// 1 / 2 = 0
-hlf(a: Nat): Nat
-  ?h
 
 // Division
 // 1 / 2 = 0
 // x / 0 = 0
 // 5 / 2 = 2
+//div(a: Nat, b: Nat): Nat // division
 div(a: Nat, b: Nat): Nat // division
-  
-  ?d
+case a {
+  zero: Nat.zero
+  succ: case sub(Nat.succ(a), b) {
+          zero: Nat.zero
+          succ: Nat.succ(div(sub(a, b), b))
+          }
+  }
 
+// Equal
+eql(a: Nat, b: Nat): Bool // Given 2 numbers, it returns true if the 2 are the same and false if they are different.
+  case a {
+    zero: case b {
+      zero: Bool.true
+      succ: Bool.false
+      }
+    succ: case b {
+      zero: Bool.false
+      succ: eql(a.pred, b.pred)
+      }
+  }
 
 ex_04: IO<Unit>
   IO {
@@ -168,9 +154,45 @@ ex_04: IO<Unit>
     Tests._04.hlf(hlf)
     Tests._04.div(div)
   }
-=======
-=======
->>>>>>> f781646 (refatorei e to terminando o 7)
+// Minimum
+// min(2, 3) = 2
+// min(4, 1) = 1
+//menor(a: Nat, b: Nat): Nat // if A < B then A else B
+//  case a {
+//    zero: b
+//   succ: case b {
+//            zero: a
+//            succ: menor(a.pred, b.pred)
+//      } 
+//  }
+
+
+// Greater than
+// 2 > 1 = True
+// 3 > 3 = False
+gtn(a: Nat, b: Nat): Bool // if A > B == True else false
+  case a {
+    zero: Bool.false
+    succ: case b {
+            zero: Bool.true
+            succ: gtn(a.pred, b.pred)
+            }
+  }
+
+// Lower than
+// 1 < 2 = True
+// 3 < 3 = False
+ltn(a: Nat, b: Nat): Bool // if A > B == False else true 
+  case a {
+    zero: case b {
+            zero: Bool.false
+            succ: Bool.true
+      }
+    succ: case b {
+            zero: Bool.false
+            succ: ltn(a.pred, b.pred)
+      }
+  }
 
 // Minimum
 // min(2, 3) = 2
@@ -226,15 +248,7 @@ ex_04:_
   //fac(9)
   //eql(b, a)
   //gtn(a, b)
-<<<<<<< HEAD
-  ltn(b, a)
->>>>>>> e5f1f58 (Add files via upload)
-=======
-  //ltn(b, a)
-<<<<<<< HEAD
->>>>>>> 7afdde3 (add ex_07 and edit ex_04)
-=======
+  // ltn(b, a)
   min(a, b)
   //max(a, b)
   //hlf(9)
->>>>>>> b303108 (add min max to ex_04)

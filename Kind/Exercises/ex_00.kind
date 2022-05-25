@@ -8,36 +8,21 @@ type Bool {
 // Is true
 // Returns true if input is true
 is_true(a: Bool): Bool
-<<<<<<< HEAD
-<<<<<<< HEAD
   a 
 
-=======
-  case a {
-    true: Bool.true
-    false: Bool.false
-  }
-  //?i2
->>>>>>> 076b6b8 (Add files via upload)
-=======
-  a
->>>>>>> f781646 (refatorei e to terminando o 7)
+  // case a {
+    // true: Bool.true
+    // false: Bool.false
+  // }
 
 // Is false
 // Returns true if input is false
 is_false(a: Bool): Bool
-<<<<<<< HEAD
-
-=======
   case a {
     false: Bool.true
     true: Bool.false
   }
-<<<<<<< HEAD
 //  ?i
->>>>>>> 076b6b8 (Add files via upload)
-=======
->>>>>>> f781646 (refatorei e to terminando o 7)
 
 // Negation
 // Returns the opposite of a Bool
@@ -117,25 +102,22 @@ xnor(a: Bool, b: Bool): Bool
              false: Bool.true
        }
   }
-
-<<<<<<< HEAD
-  ?x2
+  // ?x2
 
 
-ex_00: IO<Unit>
-  IO {
-    Tests._00.is_true(is_true)
-    Tests._00.is_false(is_false)
-    Tests._00.neg(neg)
-    Tests._00.and(and)
-    Tests._00.or(or)
-    Tests._00.eql(eql)
-    Tests._00.xor(xor)
-    Tests._00.nor(nor)
-    Tests._00.nand(nand)
-    Tests._00.xnor(xnor)
-  }
-=======
+// ex_00: IO<Unit>
+  // IO {
+    // Tests._00.is_true(is_true)
+    // Tests._00.is_false(is_false)
+    // Tests._00.neg(neg)
+    // Tests._00.and(and)
+    // Tests._00.or(or)
+    // Tests._00.eql(eql)
+    // Tests._00.xor(xor)
+    // Tests._00.nor(nor)
+    // Tests._00.nand(nand)
+    // Tests._00.xnor(xnor)
+  // }
 ex_00: Bool
   let a = true
   let b = false
@@ -143,7 +125,6 @@ ex_00: Bool
   let d = false
 //  is_true(a)  // Returns true if input is true
 //  is_false(b)   // Returns true if input is false
-<<<<<<< HEAD
 //  neg(b)      // Returns the opposite of a Bool
 //  and(b, d)   // Returns true if both inputs are true
 //  or(a, b)    // Returs true if any input is true
@@ -152,14 +133,3 @@ ex_00: Bool
 //  nor(d, b)   // Returns true if both inputs are false
 //  nand(c, a)  // Returns false only if both inputs are true
   xnor(b,c)   // Returns true if both inputs are identical
->>>>>>> 076b6b8 (Add files via upload)
-=======
-//  neg(a)      // Returns the opposite of a Bool
-//  and(a, c)   // Returns true if both inputs are true
-//  or(a, c)    // Returs true if any input is true
-//  eql(b, d)   // Returs true if both inputs are identical
-//  xor(d, b)   // Returns true if both inputs are different
-//  nor(a, b)   // Returns true if both inputs are false
-//  nand(b, a)  // Returns false only if both inputs are true
-  xnor(b,d)   // Returns true if both inputs are identical
->>>>>>> f781646 (refatorei e to terminando o 7)

@@ -1,13 +1,10 @@
 // Integer Exercises
-
-<<<<<<< HEAD
 // Integers
 type Inte { 
   neg(num: Neg)
   pos(num: Pos)
 }
 
-<<<<<<< HEAD
 // Positive Numbers
 type Pos { 
   zero
@@ -21,8 +18,6 @@ type Neg {
 }
 
 // example
-// -0 does not exist
-=======
 // Functions for negative numbers to help testing 
 // Do not edit those functions
 
@@ -32,27 +27,21 @@ type Neg {
   pred(succ: Neg)
 }
 
-// -0 does not exist
 
->>>>>>> 0a2efdc (add new ex and game)
 // Increments a negative number by one
 neg_succ(n: Neg): Neg
   case n { 
     one:  Neg.one
     pred: n.succ
-<<<<<<< HEAD
   }
 
 // Functions for negative numbers to help testing 
 // Do not edit those functions
-=======
 // Returns the list without the first element
 tail<A: Type>(xs: List<A>): List<A>
   case xs {
     nil: List.nil!
     cons: xs.tail
-=======
->>>>>>> 0a2efdc (add new ex and game)
   }
 
 // Aux function for Nat.to_neg
@@ -77,6 +66,45 @@ nat_to_neg(n: Nat): Neg
 neg_show(n: Neg): String
   "-"|Nat.show(neg_to_nat(n))
 
+// Functions for negative numbers to help testing 
+// Do not edit those functions
+
+// Negative Numbers
+type Neg { 
+  one
+  pred(succ: Neg)
+}
+
+// -0 does not exist
+
+// Increments a negative number by one
+neg_succ(n: Neg): Neg
+  case n { 
+    one:  Neg.one
+    pred: n.succ
+  }
+
+// Aux function for Nat.to_neg
+nat_to_neg_aux(n: Nat): Neg
+  case n {
+    zero: Neg.one
+    succ: Neg.pred(nat_to_neg_aux(n.pred))
+  }
+
+// Converts Neg to Nat
+neg_to_nat(n: Neg): Nat
+  case n { 
+    one:  Nat.succ(Nat.zero)
+    pred: Nat.succ(neg_to_nat(n.succ))
+  }
+
+// Converts Nat to Neg
+nat_to_neg(n: Nat): Neg
+  neg_succ(nat_to_neg_aux(n))
+
+// Converts Neg to String
+neg_show(n: Neg): String
+  "-"|Nat.show(neg_to_nat(n))
 
 // Functions for negative numbers to help testing 
 // Do not edit those functions
@@ -93,16 +121,7 @@ pos_to_nat(n: Pos): Nat
     zero:  Nat.zero
     succ:  Nat.succ(pos_to_nat(n.pred))
   }
-<<<<<<< HEAD
 //  ?a
-<<<<<<< HEAD
->>>>>>> 1b0a939 (add ex_06)
-=======
->>>>>>> 9a2f0b8 (Add files via upload)
-=======
->>>>>>> f781646 (refatorei e to terminando o 7)
-
-<<<<<<< HEAD
 // Converts Neg to Nat
 neg_to_nat(n: Neg): Nat
   case n { 
@@ -121,7 +140,6 @@ nat_to_neg_aux(n: Nat): Neg
     succ: Neg.pred(nat_to_neg_aux(n.pred))
   }
 
-<<<<<<< HEAD
 // Converts Pos to Nat
 pos_to_nat(n: Pos): Nat
   case n { 
@@ -129,14 +147,11 @@ pos_to_nat(n: Pos): Nat
     succ:  Nat.succ(pos_to_nat(n.pred))
   }
 
-=======
->>>>>>> 0a2efdc (add new ex and game)
 // Converts Nat to Pos
 nat_to_pos(n: Nat): Pos
   case n { 
     zero: Pos.zero
     succ: Pos.succ(nat_to_pos(n.pred))
-<<<<<<< HEAD
   }
 
 // Converts Pos to String
@@ -168,94 +183,6 @@ int(sign: Bool, num: Nat): Inte
   }
 
 
-// Exercises:
-
-// Increments an Integer
-// int(false, 1)     = +0
-// int(false, 2)     = -1
-// int(true,  2)     = +3
-inc(a: Inte): Inte  
-  ?inc
-
-// Decrements an Integer
-// int(false, 1) = -2
-// int(true,  2) = +1
-// int(true,  0) = -1
-dec(a: Inte): Inte
-  ?dec
-
-// Doubles an Integer
-// int(false, 4) = -8
-// int(false, 1) = -2
-// int(true,  2) = +4
-dbl(a: Inte): Inte 
-  ?dbl
-
-// Adds two Integers
-// int(false, 4) + int(false, 2) = -6
-// int(false, 4) + int(true,  2) = -2
-add(a: Inte, b: Inte): Inte
-  ?add
-
-// Multiplies two Integers
-// int(false, 2) * int(true, 3)  = -6
-// int(false, 4) * int(false, 5) = +20
-mul(a: Inte, b: Inte): Inte
-  ?mul
-
-// Subtracts two Integers
-// int(false, 6) - int(false, 6) = +0
-// int(false, 4) - int(false, 6) = +2
-sub(a: Inte, b: Inte): Inte
-  ?sub
-
-// Equal
-eql(a: Inte, b: Inte): Bool // Given two Integers, returns true if both are the same and false otherwise.
-  ?eql
-
-
-// Greater than
-// int(false, 2) > int(false, 5) = True
-// int(false, 5) > int(false, 1) = False
-// int(false, 2) > int(true,  0) = False
-// int(true,  0) > int(false, 2) = True
-gtn(a: Inte, b: Inte): Bool // if A > B then True else false
-  ?gtn
-
-// Lower than
-// int(false, 1) < int(true,  0) = True
-// int(true,  0) < int(false, 1) = False
-ltn(a: Inte, b: Inte): Bool // if A > B then False else true
-  ?ltn
-
-// Minimum
-// min(int(false, 1), int(true,  0)  = -1
-// min(int(false, 1), int(false, 3)) = -3
-min(a: Inte, b: Inte): Inte // if A < B then A else B
-  ?min
-
-// Maximum
-// max(int(false, 1), int(true,  0)) = +0
-// max(int(false, 1), int(false, 3)) = -1
-max(a: Inte, b: Inte): Inte // if A > B then A else B
-  ?max
-
-// Half
-// Divides an Integer by two
-// int(false, 4) = -2
-// int(false, 1) = +0
-// int(true,  6) = +3
-hlf(a: Inte): Inte
-  ?hlf
-
-// Division
-// int(true,  2)  / int(true,  2)  = +1
-// int(false, 8)  / int(true,  4)  = -2
-// int(false, 11) / int(false, 5)  = +2
-// int(true,  10) / int(false, 12) = +0
-div(a: Inte, b: Inte): Inte 
-  ?div
-
 ex_06: IO<Unit>
   IO {
     Tests._06.inc(inc)
@@ -272,7 +199,6 @@ ex_06: IO<Unit>
     Tests._06.hlf(hlf)
     Tests._06.div(div)
   }
-=======
 reverse.go<A: Type>(new_list: List<A>, old_list: List<A>): List<A>
   case old_list {
     nil: new_list
@@ -287,30 +213,13 @@ ex_06:_
   //List.show!(Nat.show, concat!(a, b))
   //List.show!(Nat.show, map!!(Nat.add(2), a))
   List.show!(Nat.show, reverse!(a))
-<<<<<<< HEAD
 
-
-
-
-<<<<<<< HEAD
->>>>>>> 1b0a939 (add ex_06)
-=======
->>>>>>> 9a2f0b8 (Add files via upload)
-=======
->>>>>>> f781646 (refatorei e to terminando o 7)
-=======
-  }
 
 // Converts Pos to String
 pos_show(n: Pos): String
   "+"|Nat.show(pos_to_nat(n))
 
 
-// Integers
-type Inte { 
-  neg(num: Neg)
-  pos(num: Pos)
-}
 
 // Convertss Int to String
 inte_show(n: Inte): String
@@ -589,4 +498,3 @@ div(a: Inte, b: Inte): Inte
   // inte_show(max(b, d))
   // inte_show(hlf(b))
   inte_show(div(b, a))
->>>>>>> 0a2efdc (add new ex and game)
