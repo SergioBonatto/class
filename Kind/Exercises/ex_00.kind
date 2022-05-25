@@ -9,6 +9,7 @@ type Bool {
 // Returns true if input is true
 is_true(a: Bool): Bool
 <<<<<<< HEAD
+<<<<<<< HEAD
   a 
 
 =======
@@ -18,6 +19,9 @@ is_true(a: Bool): Bool
   }
   //?i2
 >>>>>>> 076b6b8 (Add files via upload)
+=======
+  a
+>>>>>>> f781646 (refatorei e to terminando o 7)
 
 // Is false
 // Returns true if input is false
@@ -29,8 +33,11 @@ is_false(a: Bool): Bool
     false: Bool.true
     true: Bool.false
   }
+<<<<<<< HEAD
 //  ?i
 >>>>>>> 076b6b8 (Add files via upload)
+=======
+>>>>>>> f781646 (refatorei e to terminando o 7)
 
 // Negation
 // Returns the opposite of a Bool
@@ -39,46 +46,33 @@ neg(b: Bool): Bool
     true: Bool.false
     false: Bool.true
   }
-//  ?n
 
 // And
 // Returns true if both inputs are true
 and(a: Bool, b: Bool): Bool
   case a {
-    false: Bool.false
-    true: case b {
-            true: Bool.true
-            false: Bool.false
-             }
-  }
-//  ?a
+    false: a
+    true: b
+    }
 
 // Or
 // Returs true if any input is true
 or(a: Bool, b: Bool): Bool
-  case a {
-    true: Bool.true
-    false: case b {
-             true: Bool.true
-             false: Bool.false
-            }
-  }
-//  ?o
+  case a {  
+    true: a
+    false:b
+    }
 
 // Equal
 // Returs true if both inputs are identical
 eql(a: Bool, b: Bool): Bool
   case a {
-    true: case b {
-            true: Bool.true
-            false: Bool.false
-      }
+    true: b
     false: case b {
             false: Bool.true
             true: Bool.false
        }
   } 
-//  ?e
 
 // Xor
 // Returns true if both inputs are different
@@ -88,12 +82,8 @@ xor(a: Bool, b: Bool): Bool
             false: Bool.true
             true: Bool.false
       }
-    false: case b {
-            false: Bool.false
-            true: Bool.true
-       }
-  }
-//  ?x
+    false: b
+    }
 
 // Nor
 // Returns true if both inputs are false
@@ -105,7 +95,6 @@ nor(a: Bool, b: Bool): Bool
        }
     true: Bool.false
   }
-//  ?n2
 
 // Nand
 // Returns false only if both inputs are true
@@ -117,22 +106,17 @@ nand(a: Bool, b: Bool): Bool
       }
     false: Bool.true
   }
-//  ?n3
 
 // Xnor
 // Returns true if both inputs are identical
 xnor(a: Bool, b: Bool): Bool
   case a {
-    true: case b {
-            true: Bool.true
-            false: Bool.false
-      }
+    true: b
     false: case b {
              true: Bool.false
              false: Bool.true
        }
   }
-//  ?x2
 
 <<<<<<< HEAD
   ?x2
@@ -157,8 +141,9 @@ ex_00: Bool
   let b = false
   let c = true
   let d = false
-//  is_true(b)  // Returns true if input is true
+//  is_true(a)  // Returns true if input is true
 //  is_false(b)   // Returns true if input is false
+<<<<<<< HEAD
 //  neg(b)      // Returns the opposite of a Bool
 //  and(b, d)   // Returns true if both inputs are true
 //  or(a, b)    // Returs true if any input is true
@@ -168,3 +153,13 @@ ex_00: Bool
 //  nand(c, a)  // Returns false only if both inputs are true
   xnor(b,c)   // Returns true if both inputs are identical
 >>>>>>> 076b6b8 (Add files via upload)
+=======
+//  neg(a)      // Returns the opposite of a Bool
+//  and(a, c)   // Returns true if both inputs are true
+//  or(a, c)    // Returs true if any input is true
+//  eql(b, d)   // Returs true if both inputs are identical
+//  xor(d, b)   // Returns true if both inputs are different
+//  nor(a, b)   // Returns true if both inputs are false
+//  nand(b, a)  // Returns false only if both inputs are true
+  xnor(b,d)   // Returns true if both inputs are identical
+>>>>>>> f781646 (refatorei e to terminando o 7)
