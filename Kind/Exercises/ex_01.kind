@@ -17,6 +17,10 @@ is_none(a: MaybeBool): Bool
     none: Bool.true
     some: Bool.false
   }
+<<<<<<< HEAD
+=======
+//  ?a
+>>>>>>> 7e435d5 (Add files via upload)
     
 // Returns true if Maybe is some
 is_some(a: MaybeBool): Bool
@@ -24,10 +28,13 @@ is_some(a: MaybeBool): Bool
     none: Bool.false
     some: Bool.true
   }
+<<<<<<< HEAD
+=======
+ //?b
+
+>>>>>>> 7e435d5 (Add files via upload)
 // Returns true if both inputs are identical
 // eql(MaybeBool.none,             MaybeBool.none            ) -> true
-// eql(MaybeBool.some(Bool.false), MaybeBool.none            ) -> false
-// eql(MaybeBool.some(Bool.true),  MaybeBool.some(Bool.false)) -> false
 // eql(MaybeBool.some(Bool.false), MaybeBool.some(Bool.false)) -> true
 eqlB(a: Bool, b: Bool): Bool
   case a {
@@ -39,6 +46,7 @@ eqlB(a: Bool, b: Bool): Bool
     }
 
 eql(a: MaybeBool, b: MaybeBool): Bool
+<<<<<<< HEAD
   let c = b
   case a {
     none: case b{
@@ -64,15 +72,42 @@ extract(a: MaybeBool, v: Bool): Bool
     none: v
     some: a.value
   }
+=======
+  case a b {
+    none none: Bool.true
+    some some: Bool.true
+    none some: Bool.false
+    some none: Bool.false
+  }
+//  ?c
+
+// Returns the value inside the MaybeBool.
+// If there is no value contained, returns v instead
+test_default(a: MaybeBool, v: Bool): Bool
+  case a {
+    none: v
+    some: a.value 
+  }
+//  ?d
+>>>>>>> 7e435d5 (Add files via upload)
 
 // Create a MaybeBool from a Boolean
 // create(Bool.false) -> MaybeBool(Bool.false)
 create(a:Bool): MaybeBool
+<<<<<<< HEAD
   MaybeBool.some(a)
+=======
+  case a {
+    false: MaybeBool.some(a)
+    true:  MaybeBool.some(a)
+  }
+//  ?e
+>>>>>>> 7e435d5 (Add files via upload)
 
 // Returns the first input that is a MaybeBool.some
 // Returns MaybeBool.none if both are MaybeBool.none
 or(a: MaybeBool, b: MaybeBool) : MaybeBool 
+<<<<<<< HEAD
   // case a {
   //   none: case b{
   //     none: MaybeBool.none
@@ -105,3 +140,31 @@ ex_01: IO<Unit>
 // List.show!(     Bool.show, [eql(a,b)])      
 // or(a,b)
 // eql(a,b)
+=======
+  case a {
+    none: case b {
+      none: MaybeBool.none
+      some: MaybeBool.some(b.value)
+      }
+    some: case b {
+            none: MaybeBool.some(a.value)
+            some: MaybeBool.some(b.value)
+
+      }
+  }
+//  ?f
+
+
+ex_01:_  //MaybeBool
+  let a = MaybeBool.none
+  let b = MaybeBool.none 
+  //is_none(a)  // Returns true if Maybe is none
+  //is_some(b)  // Returns true if Maybe is some
+  //eql(a, b)   // Returns true if both inputs are identical
+  //test_default(a)  // Returns the value inside the MaybeBool.
+  //create(false)   // Create a MaybeBool from a Boolean 
+  or(a, b)    // Returns the first input that is a MaybeBool.some
+    //MaybeBool.show(a)
+
+
+>>>>>>> 7e435d5 (Add files via upload)
