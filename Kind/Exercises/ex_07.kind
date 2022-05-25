@@ -243,7 +243,7 @@ gtn(a: Nat, b: Nat): Bool // if A > B == True else false
 // caso tenha algo
 // se não tiver um corpo/tail, retorna a cabeça
 // se tirver uma tail, eu verifico se a
-// head é maior que a head da taila
+// head é maior que a head da tail
 // se for, a função roda de novo
 // exluindo a head
 // se não for, eu crio uma nova lista só
@@ -264,22 +264,61 @@ smallest(xs: List<Nat>): Nat
   }
 //  ?s
 
+// Roubalheira 2, o inimigo agora é outro
+// resgatei a função eql do ex_04 e usei
+// junto com o smallest para a função
+// delete_smallest
+
+// Equal
+eql(a: Nat, b: Nat): Bool // Given 2 numbers, it returns true if the 2 are the same and false if they are different.
+  case a {
+    zero: case b {
+      zero: Bool.true
+      succ: Bool.false
+      }
+    succ: case b {
+      zero: Bool.false
+      succ: eql(a.pred, b.pred)
+      }
+  }
+
+
+// agora onde endoidei
+// vejo se a lista é vazia, se for, retorna vazio
+// caso não seja, vejo se há mais de um elemento
+// caso não tenha, retorna vazio
+// caso tenha mais de um elemento, vejo
+// se a head é igual ao menor elemento da lista
+// caso seja, retorno só a tail
+// caso não seja, construo uma nova
+// lista com a head mais o resultado da
+// função com a head da tail
+
 // Returns the same list without the smallest element
 delete_smallest(xs: List<Nat>): List<Nat>
   case xs {
     nil: List.nil!
     cons: case xs.tail {
             nil: List.nil!
-            cons: case gtn(xs.head, xs.tail.head) {
-                    true: delete_smallest(List.cons!(xs.head, xs.tail.tail))
-                    false: delete_smallest(xs.tail)                  
-           }
-          }
+            cons: case eql(xs.head, smallest(xs)){
+                    true: xs.tail
+                    false: List.cons!(xs.head, delete_smallest(xs.tail))
+                   }
+            }
   }
 //  ?d
 
 // Returns the same list, in ascending order
-//sort_ascending(xs: List<Nat>): List<Nat>
+sort_ascending(xs: List<Nat>): List<Nat>
+  case xs {
+    nil: List.nil!
+    cons: case eql(xs.head, smallest(xs)) {
+            true: List.cons!(xs.head, sort_ascending(xs.tail) )
+            false: sort_ascending(List.cons!(// TERMINAR AQUI!!!!! )) 
+           }
+
+    // List.cons!(smallest(xs), sort_ascending(xs.tail))
+  }
 //  ?a
 
 // Returns an element at an index from the list
@@ -302,6 +341,11 @@ ex_07:_
   let b = ["a", "b", "c", "d"]
   //List.show!(Pair.show!!(Nat.show, (x) x), zip!!(a, b))
   //smallest(a)
+<<<<<<< HEAD
   List.show!(Nat.show, delete_smallest(a))
 
 >>>>>>> 7afdde3 (add ex_07 and edit ex_04)
+=======
+  //List.show!(Nat.show, delete_smallest(a))
+  List.show!(Nat.show, sort_ascending(a))
+>>>>>>> f8fd341 (add ex_07)
