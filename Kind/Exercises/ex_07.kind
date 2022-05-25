@@ -1,8 +1,12 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 //Bits
 =======
 // Basic exercises involving Lists
 >>>>>>> 0a2efdc (add new ex and game)
+=======
+//Bits
+>>>>>>> 939547b (add new ex)
 
 //File for exercises in Bits
 
@@ -16,10 +20,14 @@ type Bits {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 939547b (add new ex)
 //a = Bits.i(Bits.i(Bits.e))
 //b = Bits.o(Bits.i(Bits.i(Bits.e)))
 //c = Bits.o(Bits.o(Bits.i(Bits.i(Bits.e))))
 //d = Bits.i(Bits.i(Bits.i(Bits.i(Bits.e))))
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 
@@ -227,31 +235,21 @@ tail<A: Type>(xs: List<A>): List<A>
     nil: List.nil!
     cons: xs.tail
   }
+=======
+>>>>>>> 939547b (add new ex)
 
-// Returns the length of a list
-length<A: Type>(xs: List<A>): Nat
-  case xs {
-    nil: Nat.zero
-    cons: Nat.succ(length!(xs.tail))
-  }
 
-// Concatenates two lists
-concat<A: Type>(xs: List<A>, ys: List<A>): List<A>
-  case xs {
-   nil: ys
-   cons: case ys {
-           nil: xs
-           cons: List.cons!(xs.head, concat!(xs.tail, ys))
-         }
-  }
+//Verifies if it is an Empty Bit
 
-// Applies a function to all elements of a list
-map<A: Type, B: Type>(fn: A -> B, xs: List<A>): List<B>
-  case xs {
-    nil: List.nil!
-    cons: List.cons!(fn(xs.head), map!!(fn, xs.tail))
-  }
+//is_empty(a)      -> Bool.false
+//is_empty(b)      -> Bool.false
+//is_empty(c)      -> Bool.false
+//is_empty(d)      -> Bool.false
+//is_empty(Bits.e) -> Bool.true
+is_empty(b: Bits): Bool
+  ?is_empty
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 ex_07:_
   let a = [3, 1, 5, 2, 4]
@@ -282,13 +280,11 @@ ex_07:_
 reverse<A: Type>(xs: List<A>): List<A>
   reverse.go<A>(List.nil<A>, xs)
 >>>>>>> 0a2efdc (add new ex and game)
+=======
+>>>>>>> 939547b (add new ex)
 
-reverse.go<A: Type>(new_list: List<A>, old_list: List<A>): List<A>
-  case old_list {
-    nil: new_list
-    cons: reverse.go!(List.cons!(old_list.head, new_list), old_list.tail)
-  }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> da8881c (finalizei o 07)
 =======
@@ -301,3 +297,183 @@ ex_06:_
   //List.show!(Nat.show, map!!(Nat.add(2), a))
   List.show!(Nat.show, reverse!(a))
 >>>>>>> 0a2efdc (add new ex and game)
+=======
+//Gets the Tail of a Bits structure
+
+//tail(a) -> Bits.i(Bits.e)
+//tail(b) -> Bits.i(Bits.i(Bits.e))
+//tail(c) -> Bits.o(Bits.i(Bits.i(Bits.e)))
+//tail(d) -> Bits.i(Bits.i(Bits.i(Bits.e)))
+tail(b: Bits): Bits
+  ?tail
+
+
+//Negates all Bits
+
+//notb(a) -> Bits.o(Bits.o(Bits.e))
+//notb(b) -> Bits.i(Bits.o(Bits.o(Bits.e)))
+//notb(c) -> Bits.i(Bits.i(Bits.o(Bits.o(Bits.e))))
+//notb(d) -> Bits.o(Bits.o(Bits.o(Bits.o(Bits.e))))
+notb(b: Bits): Bits
+  ?notb
+
+
+
+
+//Increments a Bit
+
+//inc(a) -> Bits.o(Bits.o(Bits.i(Bits.e)))
+//inc(b) -> Bits.i(Bits.i(Bits.i(Bits.e)))
+//inc(c) -> Bits.i(Bits.o(Bits.i(Bits.i(Bits.e))))
+//inc(d) -> Bits.o(Bits.o(Bits.o(Bits.o(Bits.i(Bits.e)))))
+inc(b: Bits): Bits
+  ?inc
+
+
+
+//Decrements a Bit
+
+//dec(a) -> Bits.o(Bits.i(Bits.e))
+//dec(b) -> Bits.i(Bits.o(Bits.i(Bits.e)))
+//dec(c) -> Bits.i(Bits.i(Bits.o(Bits.i(Bits.e))))
+//dec(d) -> Bits.o(Bits.i(Bits.i(Bits.i(Bits.e))))
+dec(b: Bits): Bits
+  ?dec
+
+
+
+
+//Concatenate two Bits structures
+
+//concat(a,b) -> Bits.i(Bits.i(Bits.o(Bits.i(Bits.i(Bits.e)
+//concat(b,c) -> Bits.o(Bits.i(Bits.i(Bits.o(Bits.o(Bits.i(Bits.i(Bits.e)))))))
+//concat(c,d) -> Bits.o(Bits.o(Bits.i(Bits.i(Bits.i(Bits.i(Bits.i(Bits.i(Bits.e))))))))
+concat(a: Bits, b: Bits): Bits
+  ?concat
+
+
+
+//Adds two Bits structures
+
+//add(a,b) -> Bits.i(Bits.o(Bits.o(Bits.i(Bits.e))))
+//add(b,c) -> Bits.o(Bits.i(Bits.o(Bits.o(Bits.i(Bits.o(Bits.e))))))
+//add(c,d) -> Bits.i(Bits.i(Bits.o(Bits.i(Bits.i(Bits.e)))))
+add(a: Bits, b: Bits): Bits 
+  ?add
+
+
+
+//Returns Bits.i if only both bits are Bits.i
+
+//and(a,b) -> Bits.o(Bits.i(Bits.e))
+//and(b,c) -> Bits.o(Bits.o(Bits.i(Bits.e)))
+//and(c,d) -> Bits.o(Bits.o(Bits.i(Bits.i(Bits.e))))
+and(a: Bits, b: Bits): Bits
+  ?and
+
+
+
+//Returns Bits.i if any of bits are Bits.i
+
+//or(a,b) -> Bits.i(Bits.i(Bits.i(Bits.e)))
+//or(b,c) -> Bits.o(Bits.i(Bits.i(Bits.i(Bits.e))))
+//or(c,d) -> Bits.i(Bits.i(Bits.i(Bits.i(Bits.e))))
+or(a: Bits, b: Bits): Bits
+  ?or
+
+
+
+//Verifies if both Bit structures are equal
+
+//eql(a,b) -> Bool.false
+//eql(b,c) -> Bool.false
+//eql(d,d) -> Bool.true
+eql(a: Bits, b: Bits): Bool
+  ?eql
+
+
+
+//Reverses a Bits structure
+
+reverse_go(b: Bits, acum: Bits): Bits
+  ?reverse_go
+  
+
+
+//reverse(a) -> Bits.i(Bits.i(Bits.e))
+//reverse(b) -> Bits.i(Bits.i(Bits.o(Bits.e)))
+//reverse(c) -> Bits.i(Bits.i(Bits.o(Bits.o(Bits.e))))
+//reverse(d) -> Bits.i(Bits.i(Bits.i(Bits.i(Bits.e))))
+reverse(b: Bits): Bits
+  reverse_go(b, Bits.e)
+
+
+
+
+//Gets the length of the Bits structure
+
+length_go(bs: Bits, acum: Nat): Nat
+  ?length_go
+
+
+
+
+//length(a) -> Nat.succ(Nat.succ(Nat.zero))
+//length(b) -> Nat.succ(Nat.succ(Nat.succ(Nat.zero)))
+//length(c) -> Nat.succ(Nat.succ(Nat.succ(Nat.succ(Nat.zero))))
+//length(d) -> Nat.succ(Nat.succ(Nat.succ(Nat.succ(Nat.zero))))
+length(bs: Bits): Nat
+  length_go(bs, 0)
+
+
+
+//Multiplies two Bits structures
+
+mul_go(a: Bits, b: Bits, acum: Bits): Bits
+  ?mul_go
+
+
+//mul(a,b) -> Bits.o(Bits.i(Bits.o(Bits.o(Bits.i(Bits.e)))))
+//mul(b,c) -> Bits.o(Bits.o(Bits.o(Bits.i(Bits.o(Bits.o(Bits.i(Bits.e)))))))
+mul(a: Bits, b: Bits): Bits
+  mul_go(a, b, Bits.e)
+
+
+
+//Drops a n Number of Bits starting from from the least significative bit
+
+//drop(1, a) -> Bits.i(Bits.e)
+//drop(1, b) -> Bits.i(Bits.i(Bits.e))
+//drop(1, c) -> Bits.o(Bits.i(Bits.i(Bits.e)))
+//drop(1, d) -> Bits.i(Bits.i(Bits.i(Bits.e)))
+drop(n: Nat, bs: Bits): Bits
+  ?drop
+  
+  
+//Takes n Bits from the structure, starting from the least significative bit
+
+//take(1, a) -> Bits.i(Bits.e)
+//take(2, b) -> Bits.o(Bits.i(Bits.e))
+//take(3, c) -> Bits.o(Bits.o(Bits.i(Bits.e)))
+//take(4, d) -> Bits.i(Bits.i(Bits.i(Bits.i(Bits.e))))
+take(n: Nat, bs: Bits): Bits
+  ?take
+
+ex_07: IO<Unit>
+  IO {
+    Tests._07.is_empty(is_empty)
+    Tests._07.tail(tail)
+    Tests._07.not(notb)
+    Tests._07.inc(inc)
+    Tests._07.dec(dec)
+    Tests._07.concat(concat)
+    Tests._07.add(add)
+    Tests._07.and(and)
+    Tests._07.eql(eql)
+    Tests._07.reverse(reverse)
+    Tests._07.length(length)
+    Tests._07.mul(mul)
+    Tests._07.drop(drop)
+    Tests._07.take(take)
+  }
+>>>>>>> 939547b (add new ex)
