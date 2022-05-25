@@ -6,6 +6,7 @@ type PairBool {
 
 // Returns the first element of a pair
 fst(pair: PairBool): Bool
+<<<<<<< HEAD
   case pair{
     new: pair.fst
   }
@@ -27,11 +28,42 @@ eql_elements(pair: PairBool): Bool
       }
     }
   }
+=======
+  case pair {
+    new: pair.fst
+  }
+
+//  ?a
+
+// Returns the second element of a pair
+snd(pair: PairBool): Bool
+  case pair {
+    new: pair.snd
+  }
+//  ?b
+
+// Returns true if both elements of a PairBool are identical
+eql_elements(a: PairBool): Bool 
+  case a {
+    new: case a.fst {
+           true: case a.snd {
+                   true:  Bool.true
+                   false: Bool.false
+      }
+           false: case a.snd {
+                   true:  Bool.false
+                   false: Bool.true
+       }
+     }
+  }
+//  ?c
+>>>>>>> 95d98bb (Add files via upload)
   
 // Returns true if both Pairs are equal 
 // eql(PairBool.new(false, false), PairBool.new(true, true)) -> false 
 // eql(PairBool.new(true, false), PairBool.new(true, false)) -> true
 eql(a: PairBool, b: PairBool): Bool
+<<<<<<< HEAD
   case a {
     new: ?a
   }
@@ -77,3 +109,93 @@ ex_02: IO<Unit>
   }
 // let a = PairBool.new(true,false)
 // let b = false
+=======
+  case a b {
+    new new: case a.fst a.snd {
+               true true: case b.fst b.snd {
+                             true true: Bool.true
+               } default Bool.false
+               false false: case b.fst b.snd {
+                             false false: Bool.true
+               } default Bool.false
+               true false: case b.fst b.snd {
+                             true false: Bool.true
+               } default Bool.false
+               false true: case b.fst b.snd {
+                             false true: Bool.true
+               } default Bool.false
+    }
+  }
+//  ?f
+
+// Returns true if both Pairs are different
+// eql(PairBool.new(false, false), PairBool.new(true, true)) -> true 
+// eql(PairBool.new(true, false), PairBool.new(true, false)) -> false
+xor(a: PairBool, b: PairBool): Bool
+  case a b {
+    new new: case a.fst a.snd {
+               true true: case b.fst b.snd {
+                             true true: Bool.false
+                } default Bool.true
+               false false: case b.fst b.snd {
+                             false false: Bool.false
+               } default Bool.true
+               true false: case b.fst b.snd {
+                             true false: Bool.false
+               } default Bool.true
+               false true: case b.fst b.snd {
+                             false true: Bool.false
+               } default Bool.true
+      }                       
+     } 
+  
+
+//  ?f
+  
+// Creates a PairBool from 2 Booleans
+create(a: Bool, b: Bool): PairBool
+  case a {
+    true: case b {
+            true:  PairBool.new(a, b)
+            false: PairBool.new(a, b)
+      }
+    false: case b {
+            true:  PairBool.new(a, b)
+            false: PairBool.new(a, b)
+       }
+  }
+//  ?h
+
+// Inverts the values of a PairBool
+// neg(PairBool.new(false, false) -> PairBool.new(true, true)
+// neg(PairBool.new(false, true) -> PairBool.new(true, false)
+agoraneg(pair: PairBool): PairBool
+  case pair {
+    new: case pair.fst pair.snd {
+           true   true: PairBool.new(false, false)
+           false false: PairBool.new(true, true)
+     } default PairBool.new(pair.snd, pair.fst)
+  }
+
+//  ?i
+
+// Inverts the 2 elements of a PairBool
+swap(pair: PairBool): PairBool 
+  case pair {
+    new: PairBool.new(pair.snd, pair.fst)
+  }
+//  ?k
+
+ex_02: PairBool
+  let a = false
+  let b = true
+  //fst({a, b})          // Returns the first element of a pair
+  //snd({a, b})          // Returns the second element of a pair 
+  //eql_elements({a, b})   // Returns true if both elements of a PairBool are identical
+  //eql({true, false}, {true, false})
+  //xor({false, false}, {true, false})
+  //create(a, bi)
+  //agoraneg({a, b})
+  swap({a, b})
+
+>>>>>>> 95d98bb (Add files via upload)
