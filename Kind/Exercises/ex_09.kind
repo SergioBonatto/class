@@ -14,19 +14,15 @@ type Maybe <A: Type> {
 // Ex: zip!!([1,2], ["a","b","c"]) == [{1, "a"}, {2 , "b"}]
 // Ex: zip!!(["a", "b"], [3, 5])   == [{"a", 3}, {2 , "b"}]
 zip<A: Type, B: Type>(xs: List<A>, ys: List<B>): List<Pair<A,B>>
-  ?a
-
-
-// Returns the same list, in ascending order
-sort_ascending(xs: List<Nat>): List<Nat>
-  ?a
-  case xs {
+   case xs {
     nil: List.nil!
     cons: case ys {
             nil: List.nil!
             cons: List.cons!(Pair.new!!(xs.head, ys.head), zip!!(xs.tail, ys.tail))
            }
   }
+
+
 
 // Returns the smallest element of a List
 
@@ -140,17 +136,17 @@ filter<A: Type>(f: A -> Bool, xs: List<A>): List<A>
   case xs {
     nil: List.nil!
     cons: case f(xs.head) {
-            false: filter!(f)(xs.tail)
-            true : List.cons!(xs.head, filter!(f)(xs.tail))
+            true  : filter!(f)(xs.tail)
+            false : List.cons!(xs.head, filter!(f)(xs.tail))
            }
   }
 
-ex_08:_
+ex_09:_
   let a = [3, 1, 5, 2, 4]
-  let b = ["a", "b", "c", "d"]
-  //List.show!(Pair.show!!(Nat.show, (x) x), zip!!(a, b))
+  let b = ["a", "b", "c"]
+  List.show!(Pair.show!!(Nat.show, (x) x), zip!!(a, b))
   //smallest(a)
-  //List.show!(Nat.show, delete_smallest(a))
-  //List.show!(Nat.show, sort_ascending(a))
-  //Maybe.show!(Nat.show, get!(3, a))
-  List.show!(Nat.show, filter!(Nat.odd, a))
+  // List.show!(Nat.show, delete_smallest(a))
+  // List.show!(Nat.show, sort_ascending(a))
+  // Maybe.show!(Nat.show, get!(3, a))
+  // List.show!(Nat.show, filter!(Nat.odd, a))

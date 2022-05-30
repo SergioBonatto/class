@@ -31,8 +31,8 @@ map<A: Type, B: Type>(fn: A -> B, pair: Pair<A,A>): Pair<B,B>
 
 ex_05:_
   let a = {1, 2}
-  //swap!!(a)
-  //first!!(a)
-  //second!!(a)
-  map!!(Nat.add(2), a)
+  // swap!!(a)
+  // first!!(a)
+  // second!!(a)
+  // map!!(Nat.add(2), a)
 

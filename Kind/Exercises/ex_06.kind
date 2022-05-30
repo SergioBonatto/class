@@ -21,13 +21,6 @@ type Neg {
 // Functions for negative numbers to help testing 
 // Do not edit those functions
 
-// Negative Numbers
-type Neg { 
-  one
-  pred(succ: Neg)
-}
-
-
 // Increments a negative number by one
 neg_succ(n: Neg): Neg
   case n { 
@@ -66,23 +59,6 @@ nat_to_neg(n: Nat): Neg
 neg_show(n: Neg): String
   "-"|Nat.show(neg_to_nat(n))
 
-// Functions for negative numbers to help testing 
-// Do not edit those functions
-
-// Negative Numbers
-type Neg { 
-  one
-  pred(succ: Neg)
-}
-
-// -0 does not exist
-
-// Increments a negative number by one
-neg_succ(n: Neg): Neg
-  case n { 
-    one:  Neg.one
-    pred: n.succ
-  }
 
 // Aux function for Nat.to_neg
 nat_to_neg_aux(n: Nat): Neg
@@ -91,54 +67,9 @@ nat_to_neg_aux(n: Nat): Neg
     succ: Neg.pred(nat_to_neg_aux(n.pred))
   }
 
-// Converts Neg to Nat
-neg_to_nat(n: Neg): Nat
-  case n { 
-    one:  Nat.succ(Nat.zero)
-    pred: Nat.succ(neg_to_nat(n.succ))
-  }
-
-// Converts Nat to Neg
-nat_to_neg(n: Nat): Neg
-  neg_succ(nat_to_neg_aux(n))
-
-// Converts Neg to String
-neg_show(n: Neg): String
-  "-"|Nat.show(neg_to_nat(n))
-
 // Functions for negative numbers to help testing 
 // Do not edit those functions
 
-// Positive Numbers
-type Pos { 
-  zero
-  succ(pred: Pos)
-}
-
-// Converts Pos to Nat
-pos_to_nat(n: Pos): Nat
-  case n { 
-    zero:  Nat.zero
-    succ:  Nat.succ(pos_to_nat(n.pred))
-  }
-//  ?a
-// Converts Neg to Nat
-neg_to_nat(n: Neg): Nat
-  case n { 
-    one:  Nat.succ(Nat.zero)
-    pred: Nat.succ(neg_to_nat(n.succ))
-  }
-  
-// Converts Nat to Neg
-nat_to_neg(n: Nat): Neg
-  neg_succ(nat_to_neg_aux(n))
-  
-  // Aux function for Nat.to_neg
-nat_to_neg_aux(n: Nat): Neg
-  case n {
-    zero: Neg.one
-    succ: Neg.pred(nat_to_neg_aux(n.pred))
-  }
 
 // Converts Pos to Nat
 pos_to_nat(n: Pos): Nat
@@ -183,70 +114,18 @@ int(sign: Bool, num: Nat): Inte
   }
 
 
-ex_06: IO<Unit>
-  IO {
-    Tests._06.inc(inc)
-    Tests._06.dec(dec)
-    Tests._06.dbl(dbl)
-    Tests._06.add(add)
-    Tests._06.mul(mul)
-    Tests._06.sub(sub)
-    Tests._06.eql(eql)
-    Tests._06.gtn(gtn)
-    Tests._06.ltn(ltn)
-    Tests._06.min(min)
-    Tests._06.max(max)
-    Tests._06.hlf(hlf)
-    Tests._06.div(div)
-  }
 reverse.go<A: Type>(new_list: List<A>, old_list: List<A>): List<A>
   case old_list {
     nil: new_list
     cons: reverse.go!(List.cons!(old_list.head, new_list), old_list.tail)
   }
-
-ex_06:_
-  let a = [1, 2, 3, 4]
-  let b = [5, 6, 7]
-  //tail!(a)
-  //length!(a)]
-  //List.show!(Nat.show, concat!(a, b))
-  //List.show!(Nat.show, map!!(Nat.add(2), a))
-  List.show!(Nat.show, reverse!(a))
-
-
-// Converts Pos to String
-pos_show(n: Pos): String
-  "+"|Nat.show(pos_to_nat(n))
-
-
-
-// Convertss Int to String
-inte_show(n: Inte): String
-  case n {
-    neg: neg_show(n.num) 
-    pos: pos_show(n.num) 
-  }
-
+  
 
 // convert Int to Nat
 inte_to_nat(a: Inte): Nat
   case a {
     neg: neg_to_nat(a.num)
     pos: pos_to_nat(a.num)
-  }
-
-// Creates an int
-// true  = Positive 
-// false = Negative
-int(sign: Bool, num: Nat): Inte
-  case sign {
-    true: Inte.pos(nat_to_pos(num))
-    false:
-      case num {
-        zero: Inte.pos(Pos.zero)
-        succ: Inte.neg(nat_to_neg(num))
-      }
   }
 
 
@@ -265,7 +144,6 @@ inc(a: Inte): Inte
     pos: Inte.pos(Pos.succ(a.num))
         
   }
-// ?inc
 
 // Decrements an Integer
 // int(false, 1) = -2
@@ -312,7 +190,6 @@ add(a: Inte, b: Inte): Inte
           succ: inc(add(Inte.pos(a.num.pred), b))
     } 
   }
-// ?add
 
 // Multiplies two numbers
 // // int(false, 2) * int(true, 3)  = -6
@@ -328,7 +205,6 @@ mul(a: Inte, b: Inte): Inte
           succ: mul(Inte.pos(Pos.succ(a.num.pred)), b)
      }
   }
-// ?mul
 
 // Subtracts two Interger numbers
 // int(false, 6) - int(false, 6) = +0
@@ -389,7 +265,6 @@ gtn(a: Inte, b: Inte): Bool // if A > B == True else false
                 }
           }
   }
-// ?gtn
 
 // Lower than
 // int(false, 1) < int(true,  0) = True
@@ -411,7 +286,6 @@ ltn(a: Inte, b: Inte): Bool // if A > B == False else true
                 }
           }
   }
-// ?ltn
 
 // Minimum
 // min(int(false, 1), int(true,  0)  = -1
@@ -431,7 +305,6 @@ max(a: Inte, b: Inte): Inte // if A > B then A else B
     false: b
     true : a
   }
-// ?max
 
 // Half
 // Divides a number by two
@@ -464,21 +337,53 @@ signal(a: Inte, b: Inte): Bool
     pos pos: Bool.true
   }
 
+
+// FIXME
 div(a: Inte, b: Inte): Inte
-  let a_nat = inte_to_nat(a)
-  let b_nat = inte_to_nat(b)
-  case a_nat {
-    zero: int(signal(a, b), Nat.zero)
-    succ: case signal(a, b){
-            true:  int(Bool.true,  Nat.succ(inte_to_nat(div(sub(a, b), b))))
-            false: int(Bool.false, Nat.succ(inte_to_nat(div(sub(a, b), b))))
+  case a {
+    neg: case a.num {
+           one: mul(a, b)
+           pred: Inte.pos(Neg.pred(div(sub(a, b), b)))
 
-            } 
+         }
+    pos: case a.num {
+           zero: mul(a, b)
+           succ: Inte.pos(Pos.succ(div(sub(a, b), b)))
+         }
   }
-  // ?div
 
 
 
+
+
+  // let a_nat = inte_to_nat(a)
+  // let b_nat = inte_to_nat(b)
+  // case a_nat {
+  //   zero: int(signal(a, b), Nat.zero)
+  //   succ: case signal(a, b){
+  //           true:  int(Bool.true,  Nat.succ(inte_to_nat(div(sub(a, b), b))))
+  //           false: int(Bool.false, Nat.succ(inte_to_nat(div(sub(a, b), b))))
+  //
+  //           }
+  // }
+  //
+// ex_06: IO<Unit>
+//   IO {
+//     Tests._06.inc(inc)
+//     Tests._06.dec(dec)
+//     Tests._06.dbl(dbl)
+//     Tests._06.add(add)
+//     Tests._06.mul(mul)
+//     Tests._06.sub(sub)
+//     Tests._06.eql(eql)
+//     Tests._06.gtn(gtn)
+//     Tests._06.ltn(ltn)
+//     Tests._06.min(min)
+//     Tests._06.max(max)
+//     Tests._06.hlf(hlf)
+//     Tests._06.div(div)
+//   }
+//
  ex_06:_
   let a = int(Bool.false, 2)
   let b = int(Bool.true, 7)
