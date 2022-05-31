@@ -209,12 +209,12 @@ mul_go(a: Bits, b: Bits, acum: Bits): Bits
     o: case b {
          e: acum
          o: mul_go(a.pred, b, acum)
-         i: mul_go(a.pred, b, acum)
-        }    
+         i: mul_go(a.pred, (b), add(b, acum))
+        }                                     // oii ooiii
     i: case b {
          e: acum /// FIXME
-         o: mul_go(a.pred, Bits.o(b), add(acum, b))
-         i: mul_go(a.pred, Bits.i(b), add(acum, b))
+         o: mul_go(a.pred, Bits.o(b), add(b, acum))
+         i: mul_go(a.pred, Bits.i(b), add(b, acum))
         }  
 }
 
@@ -248,12 +248,7 @@ mul(a: Bits, b: Bits): Bits
 
 
 ex_07: _
-  let a = Bits.i(Bits.i(Bits.e))
-  let b = Bits.o(Bits.i(Bits.i(Bits.e)))
-  let c = Bits.o(Bits.o(Bits.i(Bits.i(Bits.e))))
-  let d = Bits.i(Bits.i(Bits.i(Bits.i(Bits.e))))
-  // is_empty(a)
-  // tail(c)
+ // tail(c)
   // notb(a)
   // inc(a)
   // dec(b)
@@ -264,7 +259,26 @@ ex_07: _
   // eql(a, d)
   // reverse(Bits.i(Bits.o(Bits.o(Bits.i(Bits.i(Bits.e))))))
   // length(d)
-  mul(c, b)
+  IO {
+    let a = Bits.i(Bits.i(Bits.o(Bits.e)))
+    let b = Bits.o(Bits.i(Bits.i(Bits.e)))
+    let c = Bits.o(Bits.o(Bits.i(Bits.i(Bits.e))))
+    let d = Bits.i(Bits.i(Bits.i(Bits.i(Bits.e))))
+     
+    let z = Nat.to_bits(111)
+    let x = Nat.to_bits(274)
+    
+    let na = Bits.to_nat(a)
+    let nb = Bits.to_nat(b)
+
+    let mm = mul(b, a) 
+    let mn = Bits.to_nat(mm)
+// is_empty(a)
+    
+    IO.print(Nat.show(na) | " * " | Nat.show(nb))
+    IO.print(Nat.show(mn))
+  }
+
 
 
 // ex_07: IO<Unit>
