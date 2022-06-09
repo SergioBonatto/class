@@ -17,8 +17,8 @@ inc(a: Nat): Nat
 dec(a: Nat): Nat
   case a {
     zero: Nat.zero
-     succ: a.pred
-   }
+    succ: a.pred
+  }
 
 is_zero(a: Nat): Bool
   case a {
@@ -27,17 +27,9 @@ is_zero(a: Nat): Bool
   }
 
 
-// ex_03: _
-  // IO {
-    // Tests._03.inc(inc)
-    // Tests._03.dec(dec)
-    // Tests._03.is_zero(is_zero)
-  // }
-
-ex_03:_
-  let a = 0
-  let b = 3
-  // inc(a)
-  // dec(b)
-  is_zero(a)
-
+ex_03: _
+  IO {
+    Tests._03.inc(inc)
+    Tests._03.dec(dec)
+    Tests._03.is_zero(is_zero)
+  }

@@ -73,9 +73,13 @@ inc(b: Bits): Bits
 //dec(d) -> Bits.o(Bits.i(Bits.i(Bits.i(Bits.e))))
 dec(b: Bits): Bits
   case b {
-    e: Bits.e
-    o: Bits.i(dec(b.pred))
-    i: Bits.o(b.pred)
+    e: b
+    o: case b.pred{
+        e: Bits.e  //FIXME
+       } default Bits.i(dec(b.pred))
+    i: case b.pred {
+        e: Bits.o(Bits.e)
+       } default Bits.o(b.pred)
   }
 
 //Concatenate two Bits structures
@@ -104,7 +108,7 @@ add(a: Bits, b: Bits): Bits
     e: b
     o: case b {
          e: a
-         o: Bits.i(add(a.pred, b.pred))
+         o: Bits.o(add(a.pred, b.pred))
          i: Bits.i(add(a.pred, b.pred))
        }
     i: case b {
@@ -204,18 +208,22 @@ length(bs: Bits): Nat
 //Multiplies two Bits structures
 
 mul_go(a: Bits, b: Bits, acum: Bits): Bits
-  case a {
-    e: acum
-    o: case b {
-         e: acum
-         o: mul_go(a.pred, b, acum)
-         i: mul_go(a.pred, (b), add(b, acum))
-        }                                     // oii ooiii
-    i: case b {
-         e: acum /// FIXME
-         o: mul_go(a.pred, Bits.o(b), add(b, acum))
-         i: mul_go(a.pred, Bits.i(b), add(b, acum))
-        }  
+  case b {
+    e: case a {
+        e: Bits.e
+       } default acum
+    o: case a {
+        e: Bits.e
+        o: case b.pred{
+            e: Bits.o(Bits.e) 
+             } default mul_go(Bits.o(a), b.pred, acum)
+       } default mul_go(Bits.o(a), b.pred, acum)
+    i: case a {
+        e: Bits.e
+        i: case b.pred{
+            e: Bits.i(Bits.e)
+           } default mul_go(Bits.o(a), b.pred, add(a, acum))
+       } default mul_go(Bits.o(a), b.pred, add(a, acum))
 }
 
 
@@ -245,57 +253,21 @@ mul(a: Bits, b: Bits): Bits
 //take(4, d) -> Bits.i(Bits.i(Bits.i(Bits.i(Bits.e))))
 // take(n: Nat, bs: Bits): Bits
   // ?take
-
-
-ex_07: _
- // tail(c)
-  // notb(a)
-  // inc(a)
-  // dec(b)
-  // concat(d, b)
-  // add(a, b)
-  // and(b, c)
-  // or(d, b)
-  // eql(a, d)
-  // reverse(Bits.i(Bits.o(Bits.o(Bits.i(Bits.i(Bits.e))))))
-  // length(d)
+ex_07: IO<Unit>
   IO {
-    let a = Bits.i(Bits.i(Bits.o(Bits.e)))
-    let b = Bits.o(Bits.i(Bits.i(Bits.e)))
-    let c = Bits.o(Bits.o(Bits.i(Bits.i(Bits.e))))
-    let d = Bits.i(Bits.i(Bits.i(Bits.i(Bits.e))))
-     
-    let z = Nat.to_bits(111)
-    let x = Nat.to_bits(274)
-    
-    let na = Bits.to_nat(a)
-    let nb = Bits.to_nat(b)
-
-    let mm = mul(b, a) 
-    let mn = Bits.to_nat(mm)
-// is_empty(a)
-    
-    IO.print(Nat.show(na) | " * " | Nat.show(nb))
-    IO.print(Nat.show(mn))
+    Tests._07.is_empty(is_empty)
+    Tests._07.tail(tail)
+    Tests._07.not(notb)
+    Tests._07.inc(inc)
+    // Tests._07.dec(dec)
+    Tests._07.concat(concat)
+    Tests._07.add(add)
+    Tests._07.and(and)
+    Tests._07.eql(eql)
+    Tests._07.reverse(reverse)
+    Tests._07.length(length)
+    Tests._07.mul(mul)
+    // Tests._07.drop(drop)
+    // Tests._07.take(take)
   }
 
-
-
-// ex_07: IO<Unit>
-//   IO {
-//     Tests._07.is_empty(is_empty)
-//     Tests._07.tail(tail)
-//     Tests._07.not(notb)
-//     Tests._07.inc(inc)
-//     Tests._07.dec(dec)
-//     Tests._07.concat(concat)
-//     Tests._07.add(add)
-//     Tests._07.and(and)
-//     Tests._07.eql(eql)
-//     Tests._07.reverse(reverse)
-//     Tests._07.length(length)
-//     Tests._07.mul(mul)
-//     Tests._07.drop(drop)
-//     Tests._07.take(take)
-//   }
-//

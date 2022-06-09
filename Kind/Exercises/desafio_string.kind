@@ -4,18 +4,8 @@ concat(xs: String, ys: String): String
     cons: String.cons(xs.head, concat(xs.tail, ys))
 }
 
-replace(a: String, b: String): String
-  b
-
-map(fn: Char -> Char, xs: String): String
-  case xs {
-    nil: xs
-    cons: String.cons(fn(xs.head), map(fn, xs.tail))
-} 
-
 equal(x: Char, y: Char): Bool
   U16.eql(x, y)
-
 
 stringequal(xs: String, ys: String): Bool
   case xs ys {
@@ -26,86 +16,49 @@ stringequal(xs: String, ys: String): Bool
       }
   } default Bool.false
 
-
-// =====================  Função Principal ======================
-// Find_and_replace(to_remove: String, to_add: String, str: String): String
-//   case to_remove {
-//     nil : concat(to_add, concat(" ", str))
-//     cons:
-//       case to_add {
-//         nil : str
-//         cons:
-//           case str {
-//             nil : to_add
-//             cons:
-//               case equal(to_remove.head, str.head){
-//                 false: concat(Char.to_string(str.head), Find_and_replace(to_remove, to_add, str.tail))
-//                 true :
-//                 case to_remove.tail{
-//                   nil : concat(Char.to_string(to_add.head),concat(to_add.tail, str.tail))//str.tail
-//                   cons:
-//                     case str.tail {
-//                       nil : concat(Char.to_string(str.head), to_add)
-//                       cons:
-//                         case equal(to_remove.tail.head, str.tail.head){
-//                           true : Find_and_replace(to_remove.tail, concat(Char.to_string(str.head), to_add.tail), str.tail)
-//                                   //(concat(Char.to_string(to_add.head), concat(to_add.tail, str.tail)))
-//                           false: Find_and_replace(to_remove, concat(Char.to_string(str.head), to_add), str.tail)
-//                         }
-//                     }
-//                 }
-//             }
-//        }
-//   }
-// }
-//
-//
-
-Find_and_replace(to_remove: String, to_add: String, str: String): String
-  case to_add{
-    nil : str
-    cons: 
-      case str {
-        nil : to_add
-        cons: 
-          case to_remove {
-            nil : concat(str, concat("", to_add.tail))
-            cons: 
-              case equal(to_remove.head, str.head){
-                false: 
-                  case to_remove.tail {
-                    nil : str // concat(Char.to_string(str.head), Find_and_replace(to_remove, to_add, str.tail))
-                    cons: concat(Char.to_string(str.head), Find_and_replace(to_remove, to_add, str.tail))
-                  }
-                true :
-                  case to_remove.tail {
-                    nil: Find_and_replace(Char.to_string(to_remove.head), to_add.tail,  concat(Char.to_string(to_add.head), str.tail))
-                    cons:
-                      case to_add.tail{
-                        nil : Find_and_replace(to_remove, Char.to_string(' '), str.tail)
-                        cons:
-                          case str.tail{
-                            nil : concat(str, to_add.tail) // Find_and_replace(to_remove, to_add, str.tail)
-                            cons:
-                              case equal(to_remove.tail.head, str.tail.head) { 
-                                false: Find_and_replace(to_remove, to_add, str.tail)
-                                true : Find_and_replace(to_remove.tail, to_add.tail, concat(Char.to_string(str.head)concat(Char.to_string(to_add.head), str.tail)))
-                              }
-                          }
-                      }
-                  }
-              }
-          }    
+take(n: Nat, xs: String): String
+  case n {
+    zero: ""
+    succ:
+      case xs {
+        nil : xs
+        cons: concat(Char.to_string(xs.head), take(n.pred, xs.tail)) 
       }
   }
 
+drop(n: Nat, xs: String): String
+  case n {
+    zero: xs
+    succ: 
+      case xs {
+        nil : xs
+        cons: drop(n.pred, xs.tail)
+      }
+  }
+
+// =============================================================
+// ===================== função principal ======================
+// =============================================================
+
+Find_and_replace(to_remove: String, to_add: String, str: String): String
+  case to_add {
+    nil : str
+    cons: 
+      case to_remove {
+        nil : str
+        cons:
+          case str {
+            nil : str
+            cons:  
+              case stringequal(to_remove, take(String.length(to_remove), str)){
+                false: concat(Char.to_string(str.head), Find_and_replace(to_remove, to_add, str.tail))
+                true : concat(to_add, (concat("", Find_and_replace(to_remove, to_add, drop(String.length(to_remove), str)))))
+            }
+        } 
+      }
+  }
 
 desafio_string: _
   Find_and_replace("test", "example", "In this test, the word test should be replaced by the word example.")
   // This should be the result: "In this example, the word example should be replaced by the word example."
-  // "testIn this test, the word test should be replaced by the word example."
-  //"In this example, the word example should be replaced by the word example."
-  //"In xamplehis test, the word test should be replaced by the word example."
 
-  // let frase = "o exemplo esta correto"
-  // replace("arta", "casca")

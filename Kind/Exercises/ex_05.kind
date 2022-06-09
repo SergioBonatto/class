@@ -26,13 +26,12 @@ second<A: Type, B: Type>(pair: Pair<A,B>): B
 // Applies a function to both elements of a Pair
 map<A: Type, B: Type>(fn: A -> B, pair: Pair<A,A>): Pair<B,B>
   case pair {
-    new: Pair.new!!(fn(pair.fst), fn(pair.snd))
+    new: Pair.new<B, B>(fn(pair.fst), fn(pair.snd))
   }
 
-ex_05:_
+ex_05: _
   let a = {1, 2}
-  // swap!!(a)
-  // first!!(a)
-  // second!!(a)
-  // map!!(Nat.add(2), a)
-
+  // swap<A, B>(a)
+  // first<A, B>(a)
+  // second<A, B>(a)
+  map!!(Nat.add(2), a)

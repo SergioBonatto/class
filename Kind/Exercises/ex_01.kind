@@ -31,30 +31,35 @@ is_some(a: MaybeBool): Bool
 // eql(MaybeBool.some(Bool.false), MaybeBool.some(Bool.false)) -> true
 eqlB(a: Bool, b: Bool): Bool
   case a {
-      true: b 
-      false: case b{
-        true: false
+    false: 
+      case b{
         false: true
+        true : false
       }
-    }
+    true: b 
+  }
 
 eql(a: MaybeBool, b: MaybeBool): Bool
   let c = b
   case a {
-    none: case b{
-            none: Bool.true
-            some: Bool.false
-            }
-    some: case c{
-            none: Bool.false
-            some: case a.value {
-                    true: c.value
-                    false: case c.value{
-                             true: Bool.false
-                             false: Bool.true
-                            }
-                  }
+    none: 
+      case b{
+        none: Bool.true
+        some: Bool.false
+      }
+    some: 
+      case c{
+        none: Bool.false
+        some: 
+          case a.value {
+            false: 
+              case c.value{
+                false: Bool.true
+                true : Bool.false
+              }
+            true : c.value
           }
+      }
   }
 
 // Returns the value inside the MaybeBool.
@@ -64,17 +69,6 @@ extract(a: MaybeBool, v: Bool): Bool
     none: v
     some: a.value
   }
-  // case a b {
-    // none none: Bool.true
-    // some some: case a.value {
-                 // true: b.value
-                 // false: case b.value {
-                          // true:  Bool.false
-                          // false: Bool.true
-                        // }
-               // }
-  // } default Bool.false
-
 
 // Create a MaybeBool from a Boolean
 // create(Bool.false) -> MaybeBool(Bool.false)
@@ -89,25 +83,12 @@ or(a: MaybeBool, b: MaybeBool) : MaybeBool
     none some: MaybeBool.some(b.value)
   }    default MaybeBool.some(a.value)
 
-// ex_01: IO<Unit>
-//   IO {
-//     Tests._01.is_none(is_none)
-//     Tests._01.is_some(is_some)
-//     Tests._01.eql(eql)
-//     Tests._01.extract(extract)
-//     Tests._01.create(create)
-//     Tests._01.or(or)
-//   }
-ex_01:_  //MaybeBool
-  let a = MaybeBool.none
-  let b = MaybeBool.some(Bool.true)
-  let v = Bool.false
-  // is_none(a)  // Returns true if Maybe is none
-  // is_some(a)  // Returns true if Maybe is some
-  // eql(a, b)   // Returns true if both inputs are identical
-  // extract(a, v)  // Returns the value inside the MaybeBool.
-  // create(false)   // Create a MaybeBool from a Boolean
-  // or(a, b)    // Returns the first input that is a MaybeBool.some
-    //MaybeBool.show(a)
-
-
+ex_01: IO<Unit>
+  IO {
+    Tests._01.is_none(is_none)
+    Tests._01.is_some(is_some)
+    Tests._01.eql(eql)
+    Tests._01.extract(extract)
+    Tests._01.create(create)
+    Tests._01.or(or)
+  }
