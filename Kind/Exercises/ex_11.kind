@@ -10,7 +10,7 @@ type ListMap <A: Type> {
 // If the key is not present, the value is added to the map
 set<A: Type>(key: Nat, value: A, lm: ListMap<A>): ListMap<A>
   case lm {
-    empty: lm
+    empty: ListMap.cons<A>(Pair.new<Nat, A>(key, value), lm)
     cons :
       case lm.head {
         new: 
@@ -120,4 +120,3 @@ ex_11: IO<Unit>
    Tests._11.filter(filter)
    Tests._11.map(map)
  }
-// show<String>((x) x, mapa)
