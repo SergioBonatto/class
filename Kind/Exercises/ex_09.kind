@@ -57,16 +57,30 @@ gtn(a: Nat, b: Nat): Bool // if A > B == True else false
 // excluindo a head da tail
 // e rodo a função nessa nova lista
 
-smallest(xs: List<Nat>): Nat
+smallest(xs: List<Nat>): Maybe<Nat>
   case xs {
-    nil: Nat.zero
+    nil : Maybe.none<Nat>
     cons: 
       case xs.tail {
-        nil: xs.head
+        nil : Maybe.some<Nat>(xs.head)
         cons: 
-          case gtn(xs.head, xs.tail.head) {
-            true: smallest(xs.tail)
+          case gtn(xs.head, xs.tail.head){
             false: smallest(List.cons<Nat>(xs.head, xs.tail.tail))
+            true : smallest(xs.tail)
+          }
+      }
+  }
+
+smallest_go(xs: List<Nat>): Nat
+  case xs {
+    nil: Nat.zero
+    cons:
+      case xs.tail {
+        nil: xs.head
+        cons:
+          case gtn(xs.head, xs.tail.head) {
+            true: smallest_go(xs.tail)
+            false: smallest_go(List.cons<Nat>(xs.head, xs.tail.tail))
           }
       }
   }
@@ -108,7 +122,7 @@ delete_smallest(xs: List<Nat>): List<Nat>
   case xs {
     nil: List.nil<Nat>
     cons: 
-      case eql(xs.head, smallest(xs)){
+      case eql(xs.head, smallest_go(xs)){
         true: xs.tail
         false: List.cons<Nat>(xs.head, delete_smallest(xs.tail))
       }
@@ -121,7 +135,7 @@ sort_ascending(xs: List<Nat>): List<Nat>
   case xs {
     nil : List.nil<Nat>
     cons: 
-      List.cons<Nat>(smallest(xs), (sort_ascending(delete_smallest(xs))))
+      List.cons<Nat>(smallest_go(xs), (sort_ascending(delete_smallest(xs))))
   }
   
 // Returns an element at an index from the list
@@ -156,7 +170,7 @@ filter<A: Type>(f: A -> Bool, xs: List<A>): List<A>
 ex_09: IO<Unit>
   IO {
     Tests._09.zip(zip)
-    // Tests._09.smallest(smallest)
+    Tests._09.smallest(smallest)
     Tests._09.delete_smallest(delete_smallest)
     Tests._09.sort_ascending(sort_ascending)
     Tests._09.get(get)
