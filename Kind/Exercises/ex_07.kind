@@ -71,17 +71,18 @@ inc(b: Bits): Bits
 //dec(b) -> Bits.i(Bits.o(Bits.i(Bits.e)))
 //dec(c) -> Bits.i(Bits.i(Bits.o(Bits.i(Bits.e))))
 //dec(d) -> Bits.o(Bits.i(Bits.i(Bits.i(Bits.e))))
-dec(b: Bits): Bits
+dec_go(b: Bits): Bits
   case b {
     e: b
     o: case b.pred{
-        e: Bits.e  //FIXME
+        e: Bits.e  
        } default Bits.i(dec(b.pred))
     i: case b.pred {
         e: Bits.o(Bits.e)
        } default Bits.o(b.pred)
   }
-
+dec(b: Bits): Bits
+  fix_bit(dec_go(b))
 //Concatenate two Bits structures
 
 //concat(a,b) -> Bits.i(Bits.i(Bits.o(Bits.i(Bits.i(Bits.e)
@@ -125,11 +126,6 @@ add(a: Bits, b: Bits): Bits
 //and(c,d) -> Bits.o(Bits.o(Bits.i(Bits.i(Bits.e))))
 and(a: Bits, b: Bits): Bits
   case a b {
-    // e e: Bits.e
-    // e o: Bits.e
-    // e i: Bits.e
-    // o e: Bits.e
-    // i e: Bits.e
     o o: Bits.o(and(a.pred, b.pred))
     o i: Bits.o(and(a.pred, b.pred))
     i o: Bits.o(and(a.pred, b.pred)) 
@@ -226,22 +222,42 @@ mul_go(a: Bits, b: Bits, acum: Bits): Bits
        } default mul_go(Bits.o(a), b.pred, add(a, acum))
 }
 
+fix_bit(anum: Bits): Bits
+  let a = reverse(anum)
+  case a {
+    e: reverse(a)
+    o: case a.pred{
+        e: Bits.o(Bits.e)
+       } default fix_bit(a.pred)
+    i: reverse(a)
+  }
 
 //mul(a,b) -> Bits.o(Bits.i(Bits.o(Bits.o(Bits.i(Bits.e)))))
 //mul(b,c) -> Bits.o(Bits.o(Bits.o(Bits.i(Bits.o(Bits.o(Bits.i(Bits.e)))))))
 mul(a: Bits, b: Bits): Bits
-  mul_go(a, b, Bits.e)
+  fix_bit(mulgo(a, b))
 
-
-
+mulgo(a: Bits, b: Bits): Bits
+  let anum = fix_bit(a)
+  let bnum = fix_bit(b) 
+  case a{
+    o: case a.pred{
+        e: Bits.o(Bits.e)
+        o: fix_bit(mul_go(anum, bnum, Bits.e))
+      } default reverse(fix_bit(reverse(mul_go(anum, bnum, Bits.e))))
+  } default reverse(fix_bit(reverse(mul_go(anum, bnum, Bits.e))))
+  
 //Drops a n Number of Bits starting from from the least significative bit
 
 //drop(1, a) -> Bits.i(Bits.e)
 //drop(1, b) -> Bits.i(Bits.i(Bits.e))
 //drop(1, c) -> Bits.o(Bits.i(Bits.i(Bits.e)))
 //drop(1, d) -> Bits.i(Bits.i(Bits.i(Bits.e)))
-// drop(n: Nat, bs: Bits): Bits
-  // ?drop
+drop(n: Nat, bs: Bits): Bits 
+  case n {
+    zero: bs
+    succ: drop(n.pred, tail(bs))
+  }
   
 
 
@@ -251,15 +267,19 @@ mul(a: Bits, b: Bits): Bits
 //take(2, b) -> Bits.o(Bits.i(Bits.e))
 //take(3, c) -> Bits.o(Bits.o(Bits.i(Bits.e)))
 //take(4, d) -> Bits.i(Bits.i(Bits.i(Bits.i(Bits.e))))
-// take(n: Nat, bs: Bits): Bits
-  // ?take
+take(n: Nat, bs: Bits): Bits
+  case n {
+    zero: Bits.e
+    succ: reverse(drop(Nat.sub(length(bs), n), reverse(bs)))
+  }
+
 ex_07: IO<Unit>
   IO {
     Tests._07.is_empty(is_empty)
     Tests._07.tail(tail)
     Tests._07.not(notb)
     Tests._07.inc(inc)
-    // Tests._07.dec(dec)
+    Tests._07.dec(dec)
     Tests._07.concat(concat)
     Tests._07.add(add)
     Tests._07.and(and)
@@ -267,7 +287,8 @@ ex_07: IO<Unit>
     Tests._07.reverse(reverse)
     Tests._07.length(length)
     Tests._07.mul(mul)
-    // Tests._07.drop(drop)
-    // Tests._07.take(take)
+    Tests._07.drop(drop)
+    Tests._07.take(take)
   }
 
+  // reverse(fix_bit(reverse(Bits.o(Bits.o(Bits.i(Bits.o(Bits.e)))))))

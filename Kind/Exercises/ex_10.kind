@@ -172,13 +172,22 @@ string_to_upper(xs: String): String
 //to_bits(a) -> "0000000001001001 0000000001001000"
 //to_bits(b) -> "0000000001101111 0000000001101100 00000000011011000 000000001100101 0000000001001000"
 //to_bits(c) -> "0000000001110100 0000000001111000 00000000011001010 000000001110100"
-to_bits(xs: String): Bits
+to_bits_go(xs: String): Bits
   case xs {
     nil : Bits.e
-    cons: Bits.concat(to_bits(xs.tail), Bits.reverse(U16.to_bits(xs.head)))  
+    cons: Bits.concat(to_bits_go(xs.tail), Bits.reverse(U16.to_bits(xs.head)))
   }   
+to_bits(xs: String): Bits
+  Bits.reverse(Bits.concat(to_bits_go(xs), Bits.e))
 
-
+// 00000000010010010000000001001000
+// 00010010000000001001001000000000
+//
+// 00000000011011110000000001101100000000000110110000000000011001010000000001001000
+// 00010010000000001010011000000000001101100000000000110110000000001111011000000000
+//
+// 0000000001110100000000000111100000000000011001010000000001110100
+// 0010111000000000101001100000000000011110000000000010111000000000
 
 
 //Verifies if two Strings are Equal
@@ -189,9 +198,10 @@ to_bits(xs: String): Bits
 stringequal(xs: String, ys: String): Bool
   case xs ys {
     nil  nil : Bool.true
-    cons cons: case equal(xs.head, ys.head){
-      true : stringequal(xs.tail ys.tail)
-      false: Bool.false
+    cons cons: 
+      case equal(xs.head, ys.head){
+        true : stringequal(xs.tail ys.tail)
+        false: Bool.false
       }
   } default Bool.false
 
@@ -204,8 +214,8 @@ stringequal(xs: String, ys: String): Bool
 //is_nat("1234") -> Bool.true
 is_nat(xs: String): Bool
   case xs {
-    nil : Bool.true
-    cons: Bool.and(is_digit(xs.head), is_nat(xs.tail))
+    nil : Bool.false
+    cons: Bool.or(is_digit(xs.head), is_nat(xs.tail))
   }
 
 
@@ -216,11 +226,23 @@ is_nat(xs: String): Bool
 //take_while(is_equal('t'), c) -> "t"
 take_while(cond: Char -> Bool, xs: String): String
   case xs {
-    nil : ""
+    nil : xs
     cons: 
       case cond(xs.head){
-        false: take_while(cond, xs.tail)
-        true : String.concat(Char.to_string(xs.head), take_while(cond, xs.tail))
+        false: 
+          case xs.tail{
+            nil : xs
+            cons: 
+            case cond(xs.tail.head){
+              false: "" 
+              true : take_while(cond, xs.tail)
+            }
+          }  
+        true : 
+          String.concat(
+            Char.to_string(xs.head), 
+            take_while(cond, xs.tail)
+          )
       }
   }
 
@@ -252,7 +274,11 @@ filter(cond: Char -> Bool, xs: String): String
     cons: 
       case cond(xs.head){
         false: filter(cond, xs.tail)
-        true : concat(Char.to_string(xs.head), filter(cond, xs.tail))
+        true : 
+          concat(
+            Char.to_string(xs.head), 
+            filter(cond, xs.tail)
+          )
       }
   }
 
@@ -286,8 +312,6 @@ drop(n: Nat, xs: String): String
   }
 
 
-
-
 //Takes n elements of a String
 
 //take(1, a) ->  "H"
@@ -299,7 +323,11 @@ take(n: Nat xs: String): String
     succ: 
       case xs {
         nil : xs
-        cons: concat(Char.to_string(xs.head), take(n.pred, xs.tail))
+        cons: 
+          concat(
+            Char.to_string(xs.head), 
+            take(n.pred, xs.tail)
+          )
       }
   } 
 
@@ -317,10 +345,10 @@ slice(n: Nat, x: Nat, xs: String): String
       case n {
         zero: 
           case x {
-            zero: ""
-            succ: drop(n, take(x, xs))
+            zero: xs
+            succ: drop(n, take(x.pred, xs))
           }
-        succ: drop(n, take(x, xs)) 
+        succ: drop(n.pred, take(x, xs.tail)) 
       }
   }
 
@@ -346,31 +374,42 @@ split_go(xs: String, match: String, ys: String): List<String>
         nil : List.pure!(xs)
         cons: 
           case stringequal(match, take(String.length(match), xs)){
-            false: split_go(xs.tail, match, concat(ys, Char.to_string(xs.head)))
-            true : List.cons<String>(ys, split_go(drop(String.length(match), xs), match, ""))
+            false: 
+              split_go(xs.tail, match, 
+              concat(ys, Char.to_string(xs.head)))
+            true : 
+              List.cons<String>(
+                ys, 
+                split_go(
+                  drop(String.length(match), xs), 
+                  match, 
+                  ""
+                )
+              )
         }
       }
   }
 
-ex_10:_
-  // is_upper('4')
-  // is_lower('a')
-  // is_digit('.')
-  // equal('a', 'a')
-  // to_digit('9')
-  // Char.to_string(to_lower('0'))
-  // Char.to_string(to_upper('3'))
-  // concat("hi", "hello")
-  // map(to_upper, "hi")
-  // string_to_upper("hello")
-  // Bits.show(to_bits("HI"))
-  // stringequal("azul", "AZUL")
-  // is_nat("")
-  // take_while(is_lower, "hI HellO")
-  // find("hello", 'a')
-  // filter(equal('l'), "hellO")
-  // flatten(["Hi", "Hello", "Kind"])
-  // drop(2, "hello")
-  // take(2, "hello")          456
-  // slice(2, 4, "hello")  // "234567812345678178"
- List.show!((a) a, split("hello", "l"))
+ex_10: IO<Unit>
+  IO {
+    Tests._10.is_upper(is_upper)
+    Tests._10.is_lower(is_lower)
+    Tests._10.is_digit(is_digit)
+    Tests._10.equal(equal)
+    Tests._10.to_digit(to_digit)
+    Tests._10.to_lower(to_lower)
+    Tests._10.to_upper(to_upper)
+    Tests._10.concat(concat)
+    Tests._10.drop(drop)
+    Tests._10.take(take)
+    Tests._10.slice(slice)
+    Tests._10.filter(filter)
+    Tests._10.map(map)
+    Tests._10.string_to_upper(string_to_upper)
+    Tests._10.to_bits(to_bits)
+    Tests._10.stringequal(stringequal)
+    Tests._10.is_nat(is_nat)
+    Tests._10.take_while(take_while)
+    // Tests._10.find(find)
+    Tests._10.flatten(flatten)
+  }
