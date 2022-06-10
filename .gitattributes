@@ -1,1 +1,2 @@
 *.kind linguist-detectable=true
+*.kind linguist-language=World(type:programming, color:#FFD700)
