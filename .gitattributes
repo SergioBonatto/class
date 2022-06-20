@@ -1,3 +1,3 @@
-*.kind linguist-language=Kind(type:programming, color:#abcdef)
+*.kind linguist-language=Kind(type:programming, color: #0da2ff)
 
 /* *.kind linguist-detectable=true */
