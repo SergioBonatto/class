@@ -76,7 +76,6 @@ equal(x: Char, y: Char): Bool
   U16.eql(x, y)
 
 
-
 //Transforms Characters into Nat digits
 
 //to_digit('0') -> Nat.zero

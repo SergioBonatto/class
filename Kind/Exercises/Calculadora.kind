@@ -1,0 +1,98 @@
+// Gets the first number of the expression as a String 
+get_first_num(exp: String): String 
+  exp
+  // case exp{
+  //   nil: ?a
+  //   cons: ?aa
+  // }
+
+// Gets the expression operator as a Char 
+get_operator(exp: String): Char 
+  case exp {
+    nil: ' '
+    cons: exp.head
+  }
+
+// Gets the second number of the expression as a String 
+get_second_num(exp: String): String 
+  exp
+
+// Cheks if all elements of the expression are valid (first number, operatora and second number)
+is_expression_valid(fst: String, op: Char, snd: String): Bool 	
+  let mais  = '+' 
+  let menos = '-'
+  let vezes = '*'
+  let div   = '/'
+  case String.is_nat(fst) {
+    false: Bool.false
+    true:
+      case String.is_nat(snd){
+        false: Bool.false
+        true: 
+          case U16.eql(op, mais) {
+            false: 
+              case U16.eql(op, menos){
+                false: 
+                  case U16.eql(op, vezes){
+                    false: 
+                      case U16.eql(op, div){
+                        false: Bool.false
+                        true : Bool.true
+                      }
+                    true : Bool.true
+                  }
+                true : Bool.true
+              }
+            true : Bool.true
+          }
+      }
+  }
+
+// Gets the expression result 
+get_result(fst: Nat, op: Char, snd: Nat): Nat
+  case U16.eql(op, '+'){
+    false: 
+      case U16.eql(op, '-'){
+        false: 
+          case U16.eql(op, '*'){
+            false: 
+              case U16.eql(op, '/'){
+                false: 000000000
+                true : Nat.div(fst, snd)
+              }
+            true : Nat.mul(fst, snd)
+          }
+        true : Nat.sub(fst, snd)
+      
+      }
+    true : Nat.add(fst, snd)
+  }
+
+// string_to_nat(xs: String): Nat
+  // case xs {
+    // nil: 0
+    // cons: Nat.sub(U16.to_nat(xs.head), 48)
+  // }
+
+Calculadora: IO<Unit>
+	IO {
+		IO.print("Digite sua expressão: ")
+		get exp = IO.get_line // Assign the user input to the variable exp as a String
+
+		let first_num  = get_first_num()
+		let second_num = get_second_num()
+		let operator   = get_operator()
+
+		case is_expression_valid(first_num, operator, second_num) {
+      true: 
+        IO {
+          IO.print(Nat.show(get_result(3, '+', 2)))
+        } // Displays a message with the expression result 
+			false:
+				// Displays a message in case exp is invalid and restarts the program 
+				IO {
+				IO.print("Expressão inválida")
+				Calculadora
+				}   
+		} 
+	}

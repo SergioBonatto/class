@@ -1,3 +1,17 @@
+BitsMap.show<A: Type>(show: A -> String, map: BitsMap<A>): String
+  BitsMap.show.go<A>(1, show, map)
+
+BitsMap.show.go<A: Type>(depth: Nat, show: A -> String, map: BitsMap<A>): String
+  let n = String.repeat(" ", depth)
+    case map {
+      new: " Empty"
+      tie:
+        " Tie(" | Maybe.show<A>(show, map.val) |
+        "\n " | n | "Lft: " | BitsMap.show.go<A>(depth +1, show, map.lft) |
+        "\n " | n | "Rgt: " | BitsMap.show.go<A>(depth +1, show, map.rgt) | ")"
+    }
+
+
 type BitsMap<A: Type> { 
   new
   tie(val: Maybe<A>, lft: BitsMap<A>, rgt: BitsMap<A>)
@@ -6,20 +20,49 @@ type BitsMap<A: Type> {
 // Given a Key and a Value, sets the given value to that key in the tree
 // Creates new keys if they don't already exist in the map
 // If there already is a value for the given key, updates it.
-
 set<A: Type>(key: Bits, val: A, map: BitsMap<A>): BitsMap<A>
-  case map {
-    new: map
-    tie: ?b
+  case key {
+    e: 
+      case map{
+        new: BitsMap.tie<A>(Maybe.some<A>(val), BitsMap.new<A>, BitsMap.new<A>)
+        tie: BitsMap.tie<A>(Maybe.none<A>, map.lft, map.rgt) 
+      }
+    o: 
+      case map{
+        new: 
+          BitsMap.tie<A>(
+            Maybe.none<A>, 
+            set<A>(key.pred, val, BitsMap.new<A>), 
+            BitsMap.new<A>
+          )
+        tie: BitsMap.tie<A>(map.val, set<A>(key.pred, val, map.lft), map.rgt)
+      }
+    i: 
+      case map{
+        new:
+          BitsMap.tie<A>(
+            Maybe.none<A>, 
+            BitsMap.new<A>, 
+            set<A>(key.pred, val, BitsMap.new<A>)
+          )
+        tie: BitsMap.tie<A>(map.val, map.lft, set<A>(key.pred, val, map.rgt))
+      }
   }
-
-
-
-// Given a key, gets the value that correspond to the given key, 
+//
+// Given a key, gets the value that correspond to the given key,
 // If there it is no value for the key, returns Maybe.none<A>
 
 get<A: Type>(key: Bits, map:BitsMap<A>): Maybe<A>
-  ?get
+  log(Bits.show(key))
+  case map {
+    new: Maybe.none<A>
+    tie: 
+      case key {
+        e: map.val
+        o: get<A>(key.pred, map.lft)
+        i: get<A>(key.pred, map.rgt)
+      }
+  }
 
 
 //Applies a function to a Value of the specific key and returns the same map but
@@ -27,7 +70,19 @@ get<A: Type>(key: Bits, map:BitsMap<A>): Maybe<A>
 //If the value isn't found, this function doesn't change the map
 
 mut<A: Type>(key: Bits, fn: A -> A, map: BitsMap<A>): BitsMap<A>
-  ?mut
+  case key {
+    e: map
+    o: 
+      case map {
+        new: map
+        tie: BitsMap.tie<A>(map.val, mut<A>(key.pred, fn, map.lft), map.rgt)
+      }
+    i:
+      case map {
+        new: map
+        tie: BitsMap.tie<A>(map.val, map.lft, mut<A>(key.pred, fn, map.rgt))
+      } 
+  }
 
 
 //Deletes a Value of the map within the given key
@@ -38,7 +93,8 @@ mut<A: Type>(key: Bits, fn: A -> A, map: BitsMap<A>): BitsMap<A>
   // map of the type BitsMap<A>
   // returns the modified BitsMap<A>
 
-//del<A: Type>(...)
+// del<A: Type>(key: Bits, map: BitsMap<A>): BitsMap<A>
+  // ?del
 
 
 //Returns whether or not the map has a value for a given key
@@ -57,30 +113,30 @@ mut<A: Type>(key: Bits, fn: A -> A, map: BitsMap<A>): BitsMap<A>
 //removed, if the condition is matched, the value and the key are kept
 
 
-filter<A: Type>(cond: A -> Bool, map: BitsMap<A>): BitsMap<A>
-  ?filter
+// filter<A: Type>(cond: A -> Bool, map: BitsMap<A>): BitsMap<A>
+  // ?filter
 
 
 
 //Applies a function to  all values of the map and returns the map modified 
 
-map<A: Type, B: Type>(fn: A -> B, bitsmap: BitsMap<A>): BitsMap<B>
-  ?map
+// map<A: Type, B: Type>(fn: A -> B, bitsmap: BitsMap<A>): BitsMap<B>
+  // ?map
 
 
 
 // Returns a list of keys with all Keys of the map
 
-key<A: Type>(map: BitsMap<A>): List<Bits>
-  ?key
+// key<A: Type>(map: BitsMap<A>): List<Bits>
+  // ?key
 
 
 
 // Unites two different maps into one, keeping its structure
 // When both maps have values for the same key, keeps the one from a
 
-union<A: Type>(a: BitsMap<A>, b: BitsMap<A>): BitsMap<A>
-  ?union
+// union<A: Type>(a: BitsMap<A>, b: BitsMap<A>): BitsMap<A>
+  // ?union
 
 
 //Stress Test for BitsMap
@@ -89,4 +145,17 @@ stress_test(sets: Nat, gets: Nat): IO<Unit>
   Tests.stress.bmap(sets, gets)
 
 ex_12:_
-  stress_test(1000000, 1000000)
+  let map = BitsMap.new!
+    let map = set<Nat>(Nat.to_bits(1), 1, map)
+    let map = set<Nat>(Nat.to_bits(2), 2, map)
+    let map = set<Nat>(Nat.to_bits(3), 3, map)
+    let map = set<Nat>(Nat.to_bits(4), 4, map)
+    let map = set<Nat>(Nat.to_bits(5), 5, map)
+    let map = set<Nat>(Nat.to_bits(6), 6, map)
+    let map = set<Nat>(Nat.to_bits(7), 7, map)
+  IO.print(
+    // let map = set<String>(Nat.to_bits(9), "foi9", map)
+    // BitsMap.show<Nat>(Nat.show, set<Nat>(Nat.to_bits(8), 8, map))
+    BitsMap.show<Nat>(Nat.show, mut<Nat>(Nat.to_bits(2), Nat.half, map))
+  )
+    // Maybe.show<Nat>(Nat.show, get<Nat>(Nat.to_bits(6), map))
