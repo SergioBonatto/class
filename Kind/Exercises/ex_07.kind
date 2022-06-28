@@ -16,7 +16,6 @@ type Bits {
 //c = Bits.o(Bits.o(Bits.i(Bits.i(Bits.e))))
 //d = Bits.i(Bits.i(Bits.i(Bits.i(Bits.e))))
 
-<<<<<<< HEAD
 
 //Verifies if it is an Empty Bit
 
@@ -26,8 +25,9 @@ type Bits {
 //is_empty(d)      -> Bool.false
 //is_empty(Bits.e) -> Bool.true
 is_empty(b: Bits): Bool
-  ?is_empty
-
+  case b {
+    e: Bool.true
+  } default Bool.false
 
 
 //Gets the Tail of a Bits structure
@@ -37,7 +37,9 @@ is_empty(b: Bits): Bool
 //tail(c) -> Bits.o(Bits.i(Bits.i(Bits.e)))
 //tail(d) -> Bits.i(Bits.i(Bits.i(Bits.e)))
 tail(b: Bits): Bits
-  ?tail
+  case b {
+    e: b
+  } default b.pred
 
 
 //Negates all Bits
@@ -47,7 +49,11 @@ tail(b: Bits): Bits
 //notb(c) -> Bits.i(Bits.i(Bits.o(Bits.o(Bits.e))))
 //notb(d) -> Bits.o(Bits.o(Bits.o(Bits.o(Bits.e))))
 notb(b: Bits): Bits
-  ?notb
+  case b {
+    e: b
+    o: Bits.i(notb(b.pred))
+    i: Bits.o(notb(b.pred))
+  }
 
 
 
@@ -59,8 +65,11 @@ notb(b: Bits): Bits
 //inc(c) -> Bits.i(Bits.o(Bits.i(Bits.i(Bits.e))))
 //inc(d) -> Bits.o(Bits.o(Bits.o(Bits.o(Bits.i(Bits.e)))))
 inc(b: Bits): Bits
-  ?inc
-
+  case b {
+    e: Bits.i(Bits.e)
+    o: Bits.i(b.pred)
+    i: Bits.o(inc(b.pred))
+  }
 
 
 //Decrements a Bit
@@ -70,8 +79,18 @@ inc(b: Bits): Bits
 //dec(c) -> Bits.i(Bits.i(Bits.o(Bits.i(Bits.e))))
 //dec(d) -> Bits.o(Bits.i(Bits.i(Bits.i(Bits.e))))
 dec(b: Bits): Bits
-  ?dec
+  fix_bit(dec_go(b))
 
+dec_go(b: Bits): Bits
+  case b {
+    e: b
+    o: case b.pred{
+        e: Bits.e  
+       } default Bits.i(dec(b.pred))
+    i: case b.pred {
+        e: Bits.o(Bits.e)
+       } default Bits.o(b.pred)
+  }
 
 
 
@@ -81,8 +100,15 @@ dec(b: Bits): Bits
 //concat(b,c) -> Bits.o(Bits.i(Bits.i(Bits.o(Bits.o(Bits.i(Bits.i(Bits.e)))))))
 //concat(c,d) -> Bits.o(Bits.o(Bits.i(Bits.i(Bits.i(Bits.i(Bits.i(Bits.i(Bits.e))))))))
 concat(a: Bits, b: Bits): Bits
-  ?concat
-
+  case a {
+    e: case b {
+         e: Bits.e
+         o: Bits.o(concat(a, b.pred))
+         i: Bits.i(concat(a, b.pred))
+        }
+    o: Bits.o(concat(a.pred, b))
+    i: Bits.i(concat(a.pred, b))
+  }
 
 
 //Adds two Bits structures
@@ -91,8 +117,19 @@ concat(a: Bits, b: Bits): Bits
 //add(b,c) -> Bits.o(Bits.i(Bits.o(Bits.o(Bits.i(Bits.e)))))
 //add(c,d) -> Bits.i(Bits.i(Bits.o(Bits.i(Bits.i(Bits.e)))))
 add(a: Bits, b: Bits): Bits 
-  ?add
-
+  case a {
+    e: b
+    o: case b {
+         e: a
+         o: Bits.o(add(a.pred, b.pred))
+         i: Bits.i(add(a.pred, b.pred))
+       }
+    i: case b {
+         e: a
+         o: Bits.i(add(a.pred, b.pred))
+         i: Bits.o(inc(add(a.pred, b.pred)))
+       }
+  }
 
 
 
@@ -102,7 +139,12 @@ add(a: Bits, b: Bits): Bits
 //and(b,c) -> Bits.o(Bits.o(Bits.i(Bits.e)))
 //and(c,d) -> Bits.o(Bits.o(Bits.i(Bits.i(Bits.e))))
 and(a: Bits, b: Bits): Bits
-  ?and
+  case a b {
+    o o: Bits.o(and(a.pred, b.pred))
+    o i: Bits.o(and(a.pred, b.pred))
+    i o: Bits.o(and(a.pred, b.pred)) 
+    i i: Bits.i(and(a.pred, b.pred))
+  } default Bits.e  
 
 
 //Returns Bits.i if any of bits are Bits.i
@@ -111,8 +153,19 @@ and(a: Bits, b: Bits): Bits
 //or(b,c) -> Bits.o(Bits.i(Bits.i(Bits.i(Bits.e))))
 //or(c,d) -> Bits.i(Bits.i(Bits.i(Bits.i(Bits.e))))
 or(a: Bits, b: Bits): Bits
-  ?or
-
+  case a {
+    e: a
+    o: case b {
+         e: Bits.o(or(a.pred, b))
+         o: Bits.o(or(a.pred, b.pred))
+         i: Bits.i(or(a.pred, b.pred))
+         }
+    i: case b {
+         e: Bits.i(or(a.pred, b))
+         o: Bits.i(or(a.pred, b.pred))
+         i: Bits.i(or(a.pred, b.pred))
+   }
+  }
 
 
 //Verifies if both Bit structures are equal
@@ -121,15 +174,22 @@ or(a: Bits, b: Bits): Bits
 //eql(b,c) -> Bool.false
 //eql(d,d) -> Bool.true
 eql(a: Bits, b: Bits): Bool
-  ?eql
-
+  case a b {
+  // FIXME 
+    e e: Bool.true
+    o o: Bool.true
+    i i: Bool.true
+  } default Bool.false
 
 
 //Reverses a Bits structure
 
 reverse_go(b: Bits, acum: Bits): Bits
-  ?reverse_go
-  
+  case b {
+    e: acum
+    o: reverse_go(b.pred, Bits.o(acum))
+    i: reverse_go(b.pred, Bits.i(acum))
+  }
 
 
 //reverse(a) -> Bits.i(Bits.i(Bits.e))
@@ -145,8 +205,11 @@ reverse(b: Bits): Bits
 //Gets the length of the Bits structure
 
 length_go(bs: Bits, acum: Nat): Nat
-  ?length_go
-
+  case bs {
+    e: acum
+    o: length_go(bs.pred, Nat.succ(acum))
+    i: length_go(bs.pred, Nat.succ(acum))
+  }
 
 
 
@@ -160,10 +223,35 @@ length(bs: Bits): Nat
 
 
 //Multiplies two Bits structures
-
+// FIXME: 
 mul_go(a: Bits, b: Bits, acum: Bits): Bits
-  ?mul_go
+  case b {
+    e: case a {
+        e: Bits.e
+       } default acum
+    o: case a {
+        e: Bits.e
+        o: case b.pred{
+            e: Bits.o(Bits.e) 
+             } default mul_go(Bits.o(a), b.pred, acum)
+       } default mul_go(Bits.o(a), b.pred, acum)
+    i: case a {
+        e: Bits.e
+        i: case b.pred{
+            e: Bits.i(Bits.e)
+           } default mul_go(Bits.o(a), b.pred, add(a, acum))
+       } default mul_go(Bits.o(a), b.pred, add(a, acum))
+}
 
+fix_bit(anum: Bits): Bits
+  let a = reverse(anum)
+  case a {
+    e: reverse(a)
+    o: case a.pred{
+        e: Bits.o(Bits.e)
+       } default fix_bit(a.pred)
+    i: reverse(a)
+  }
 
 //mul(a,b) -> Bits.o(Bits.i(Bits.o(Bits.o(Bits.i(Bits.e)))))
 //mul(b,c) -> Bits.o(Bits.o(Bits.o(Bits.i(Bits.o(Bits.o(Bits.i(Bits.e)))))))
@@ -179,7 +267,10 @@ mul(a: Bits, b: Bits): Bits
 //drop(1, c) -> Bits.o(Bits.i(Bits.i(Bits.e)))
 //drop(1, d) -> Bits.i(Bits.i(Bits.i(Bits.e)))
 drop(n: Nat, bs: Bits): Bits
-  ?drop
+  case n {
+    zero: bs
+    succ: drop(n.pred, tail(bs))
+  }
   
 
 
@@ -190,28 +281,10 @@ drop(n: Nat, bs: Bits): Bits
 //take(3, c) -> Bits.o(Bits.o(Bits.i(Bits.e)))
 //take(4, d) -> Bits.i(Bits.i(Bits.i(Bits.i(Bits.e))))
 take(n: Nat, bs: Bits): Bits
-  ?take
-
-ex_07: IO<Unit>
-  IO {
-    Tests._07.is_empty(is_empty)
-    Tests._07.tail(tail)
-    Tests._07.not(notb)
-    Tests._07.inc(inc)
-    Tests._07.dec(dec)
-    Tests._07.concat(concat)
-    Tests._07.add(add)
-    Tests._07.and(and)
-    Tests._07.eql(eql)
-    Tests._07.reverse(reverse)
-    Tests._07.length(length)
-    Tests._07.mul(mul)
-    Tests._07.drop(drop)
-    Tests._07.take(take)
+  case n {
+    zero: Bits.e
+    succ: reverse(drop(Nat.sub(length(bs), n), reverse(bs)))
   }
-<<<<<<< HEAD
-=======
-=======
 // Returns pairs of the elements of the 2 input lists on the same index
 // Ex: zip!!([1,2], ["a","b","c"]) == [{1, "a"}, {2 , "b"}]
 // Ex: zip!!(["a", "b"], [3, 5])   == [{"a", 3}, {2 , "b"}]
@@ -245,7 +318,7 @@ gtn(a: Nat, b: Nat): Bool // if A > B == True else false
 // caso tenha algo
 // se não tiver um corpo/tail, retorna a cabeça
 // se tirver uma tail, eu verifico se a
-// head é maior que a head da taila
+// head é maior que a head da tail
 // se for, a função roda de novo
 // exluindo a head
 // se não for, eu crio uma nova lista só
@@ -266,23 +339,62 @@ smallest(xs: List<Nat>): Nat
   }
 //  ?s
 
-// Returns the same list without the smallest element
-delete_smallest(xs: List<Nat>): List<Nat>
-  case xs {
-    nil: List.nil!
-    cons: case xs.tail {
-            nil: List.nil!
-            cons: case gtn(xs.head, xs.tail.head) {
-                    true: delete_smallest(List.cons!(xs.head, xs.tail.tail))
-                    false: delete_smallest(xs.tail)                  
-           }
-          }
+// Roubalheira 2, o inimigo agora é outro
+// resgatei a função eql do ex_04 e usei
+// junto com o smallest para a função
+// delete_smallest
+
+// Equal
+eql(a: Nat, b: Nat): Bool // Given 2 numbers, it returns true if the 2 are the same and false if they are different.
+  case a {
+    zero: case b {
+      zero: Bool.true
+      succ: Bool.false
+      }
+    succ: case b {
+      zero: Bool.false
+      succ: eql(a.pred, b.pred)
+      }
   }
-//  ?d
+
+
+// agora onde endoidei
+// vejo se a lista é vazia, se for, retorna vazio
+// caso não seja, vejo se há mais de um elemento
+// caso não tenha, retorna vazio
+// caso tenha mais de um elemento, vejo
+// se a head é igual ao menor elemento da lista
+// caso seja, retorno só a tail
+// caso não seja, construo uma nova
+// lista com a head mais o resultado da
+// função com a head da tail
+
+// Returns the same list without the smallest element
+// delete_smallest(xs: List<Nat>): List<Nat>
+//   case xs {
+//     nil: List.nil!
+//     cons: case xs.tail {
+//             nil: List.nil!
+//             cons: case eql(xs.head, smallest(xs)){
+//                     true: xs.tail
+//                     false: List.cons!(xs.head, delete_smallest(xs.tail))
+//                    }
+//             }
+//   }
+// //  ?d
 
 // Returns the same list, in ascending order
-//sort_ascending(xs: List<Nat>): List<Nat>
-//  ?a
+// sort_ascending(xs: List<Nat>): List<Nat>
+//   case xs {
+//     nil: List.nil!
+//     cons: case eql(xs.head, smallest(xs)) {
+//             true: List.cons!(xs.head, sort_ascending(xs.tail) )
+//             false: sort_ascending(List.cons!(// TERMINAR AQUI!!!!! ))
+//            }
+//
+//     // List.cons!(smallest(xs), sort_ascending(xs.tail))
+//   }
+// //  ?a
 
 // Returns an element at an index from the list
 // if there is an element at that index
@@ -296,15 +408,30 @@ delete_smallest(xs: List<Nat>): List<Nat>
 // List.filter<Nat>(Nat.odd, [1, 2, 3, 4, 5]) = [1, 3, 5]
 //filter<A: Type>(f: A -> Bool, xs: List<A>): List<A>
 //  ?f
+ex_07: IO<Unit>
+  IO {
+    Tests._07.is_empty(is_empty)
+    Tests._07.tail(tail)
+    Tests._07.not(notb)
+    Tests._07.inc(inc)
+    Tests._07.dec(dec)
+    Tests._07.concat(concat)
+    Tests._07.add(add)
+    Tests._07.and(and)
+    Tests._07.eql(eql)
+    Tests._07.reverse(reverse)
+    Tests._07.length(length)
+    Tests._07.mul(mul)
+    Tests._07.drop(drop)
+    Tests._07.take(take)
+  }
 
-
-  
-ex_07:_
-  let a = [3, 1, 5, 2]
-  let b = ["a", "b", "c", "d"]
-  //List.show!(Pair.show!!(Nat.show, (x) x), zip!!(a, b))
-  //smallest(a)
-  List.show!(Nat.show, delete_smallest(a))
-
->>>>>>> 7afdde3 (add ex_07 and edit ex_04)
->>>>>>> 1937cee (ex04 e ex07 alterado)
+//
+// ex_07:_
+//   let a = [3, 1, 5, 2]
+//   let b = ["a", "b", "c", "d"]
+//   //List.show!(Pair.show!!(Nat.show, (x) x), zip!!(a, b))
+//   //smallest(a)
+//   List.show!(Nat.show, delete_smallest(a))
+//   //List.show!(Nat.show, delete_smallest(a))
+//   List.show!(Nat.show, sort_ascending(a))
