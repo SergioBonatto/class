@@ -59,7 +59,6 @@ fac(a: Nat): Nat
 // 1 / 2 = 0
 // x / 0 = 0
 // 5 / 2 = 2
-//div(a: Nat, b: Nat): Nat // division
 div(a: Nat, b: Nat): Nat // division
 case a {
   zero: Nat.zero
@@ -68,6 +67,7 @@ case a {
           succ: Nat.succ(div(sub(a, b), b))
           }
   }
+  
 
 // Equal
 eql(a: Nat, b: Nat): Bool // Given 2 numbers, it returns true if the 2 are the same and false if they are different.
