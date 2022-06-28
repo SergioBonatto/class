@@ -368,7 +368,6 @@ eql(a: Nat, b: Nat): Bool // Given 2 numbers, it returns true if the 2 are the s
 // função com a head da tail
 
 // Returns the same list without the smallest element
-<<<<<<< HEAD
 // delete_smallest(xs: List<Nat>): List<Nat>
 //   case xs {
 //     nil: List.nil!
@@ -394,38 +393,41 @@ eql(a: Nat, b: Nat): Bool // Given 2 numbers, it returns true if the 2 are the s
 //     // List.cons!(smallest(xs), sort_ascending(xs.tail))
 //   }
 // //  ?a
-=======
 delete_smallest(xs: List<Nat>): List<Nat>
   case xs {
     nil: List.nil!
-    cons: case xs.tail {
-            nil: List.nil!
-            cons: case eql(xs.head, smallest(xs)){
-                    true: xs.tail
-                    false: List.cons!(xs.head, delete_smallest(xs.tail))
-                   }
-            }
+    cons: 
+      case Nat.eql(xs.head, smallest(xs)){
+        true: xs.tail
+        false: List.cons!(xs.head, delete_smallest(xs.tail))
+      }
   }
+  
 
 // Returns the same list, in ascending order
 sort_ascending(xs: List<Nat>): List<Nat>
   case xs {
     nil: List.nil!
-    cons: case eql(xs.head, smallest(xs)) {
-            true: List.cons!(xs.head, sort_ascending(xs.tail) )
-            false: sort_ascending(List.cons!(// TERMINAR AQUI!!!!! )) 
-           }
-
-    // List.cons!(smallest(xs), sort_ascending(xs.tail))
+    cons: List.cons!(smallest(xs), (sort_ascending(delete_smallest(xs))))
   }
->>>>>>> 20cc347 (ex00 ao ex07 alterado outra vez)
 
 // Returns an element at an index from the list
 // if there is an element at that index
 //   returns Maybe.some!(element)
 // else
 //   returns Maybe.none!
-//get<A: Type>(idx: Nat, xs: List<A>): Maybe<A>
+get<A: Type>(idx: Nat, xs: List<A>): Maybe<A>
+   case xs {
+     nil: Maybe.none!
+     cons:case idx {
+            zero: Maybe.none!
+            succ: case idx.pred {
+                    zero: Maybe.some!(xs.head)
+                    succ: get!(idx.pred, xs.tail)
+                  }
+          }
+    }
+
 //  ?g
 
 // Removes all elements that does not match a condition
@@ -450,12 +452,4 @@ ex_07: IO<Unit>
     Tests._07.take(take)
   }
 
-//
-// ex_07:_
-//   let a = [3, 1, 5, 2]
-//   let b = ["a", "b", "c", "d"]
-//   //List.show!(Pair.show!!(Nat.show, (x) x), zip!!(a, b))
-//   //smallest(a)
-//   List.show!(Nat.show, delete_smallest(a))
-//   //List.show!(Nat.show, delete_smallest(a))
-//   List.show!(Nat.show, sort_ascending(a))
+
