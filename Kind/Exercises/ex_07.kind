@@ -1,5 +1,4 @@
 //Bits
-// Basic exercises involving Lists
 
 //File for exercises in Bits
 
@@ -176,7 +175,7 @@ or(a: Bits, b: Bits): Bits
 //eql(d,d) -> Bool.true
 eql(a: Bits, b: Bits): Bool
   case a b {
-  // FIXME 
+  // FIXME: 
     e e: Bool.true
     o o: Bool.true
     i i: Bool.true
@@ -304,3 +303,4 @@ ex_07: IO<Unit>
     Tests._07.drop(drop)
     Tests._07.take(take)
 }
+

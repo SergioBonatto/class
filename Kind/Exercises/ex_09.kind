@@ -14,33 +14,158 @@ type Maybe <A: Type> {
 // Ex: zip!!([1,2], ["a","b","c"]) == [{1, "a"}, {2 , "b"}]
 // Ex: zip!!(["a", "b"], [3, 5])   == [{"a", 3}, {2 , "b"}]
 zip<A: Type, B: Type>(xs: List<A>, ys: List<B>): List<Pair<A,B>>
-  ?a
+   case xs {
+    nil : List.nil<Pair<A,B>>
+    cons: 
+      case ys {
+        nil : List.nil<Pair<A,B>>
+        cons: List.cons<Pair<A,B>>(
+                Pair.new<A, B>(xs.head, ys.head), 
+                zip<A, B>(xs.tail, ys.tail)
+              )
+      }
+  }
+
+
 
 // Returns the smallest element of a List
+
+// -------- Roubalheira descarada --------
+// o que eu fiz? Roubei, na cara dura
+// peguei a função gtn do ex_04 e
+// apliquei no smallest
+
+gtn(a: Nat, b: Nat): Bool // if A > B == True else false
+  case a {
+    zero: Bool.false
+    succ: 
+      case b {
+        zero: Bool.true
+        succ: gtn(a.pred, b.pred)
+      }
+  }
+
+// caso xs seja vazio, retorna zero
+// caso tenha algo
+// se não tiver um corpo/tail, retorna a cabeça
+// se tirver uma tail, eu verifico se a
+// head é maior que a head da tail
+// se for, a função roda de novo
+// exluindo a head
+// se não for, eu crio uma nova lista só
+// com a head e a tail da tail,
+// excluindo a head da tail
+// e rodo a função nessa nova lista
+
 smallest(xs: List<Nat>): Maybe<Nat>
-  ?s
+  case xs {
+    nil : Maybe.none<Nat>
+    cons: 
+      case xs.tail {
+        nil : Maybe.some<Nat>(xs.head)
+        cons: 
+          case gtn(xs.head, xs.tail.head){
+            false: smallest(List.cons<Nat>(xs.head, xs.tail.tail))
+            true : smallest(xs.tail)
+          }
+      }
+  }
+
+smallest_go(xs: List<Nat>): Nat
+  case xs {
+    nil: Nat.zero
+    cons:
+      case xs.tail {
+        nil: xs.head
+        cons:
+          case gtn(xs.head, xs.tail.head) {
+            true: smallest_go(xs.tail)
+            false: smallest_go(List.cons<Nat>(xs.head, xs.tail.tail))
+          }
+      }
+  }
+
+// Roubalheira 2, o inimigo agora é outro
+// resgatei a função eql do ex_04 e usei
+// junto com o smallest para a função
+// delete_smallest
+
+// Equal
+eql(a: Nat, b: Nat): Bool // Given 2 numbers, it returns true if the 2 are the same and false if they are different.
+  case a {
+    zero: 
+      case b {
+        zero: Bool.true
+        succ: Bool.false
+      }
+    succ: 
+      case b {
+        zero: Bool.false
+        succ: eql(a.pred, b.pred)
+      }
+  }
+
+
+// agora onde endoidei
+// vejo se a lista é vazia, se for, retorna vazio
+// caso não seja, vejo se há mais de um elemento
+// caso não tenha, retorna vazio
+// caso tenha mais de um elemento, vejo
+// se a head é igual ao menor elemento da lista
+// caso seja, retorno só a tail
+// caso não seja, construo uma nova
+// lista com a head mais o resultado da
+// função com a head da tail
 
 // Returns the same list without the smallest element
 delete_smallest(xs: List<Nat>): List<Nat>
-  ?d
+  case xs {
+    nil: List.nil<Nat>
+    cons: 
+      case eql(xs.head, smallest_go(xs)){
+        true: xs.tail
+        false: List.cons<Nat>(xs.head, delete_smallest(xs.tail))
+      }
+  }
+  
 
 // Returns the same list, in ascending order
-sort_ascending(xs: List<Nat>): List<Nat>
-  ?a
 
+sort_ascending(xs: List<Nat>): List<Nat>
+  case xs {
+    nil : List.nil<Nat>
+    cons: 
+      List.cons<Nat>(smallest_go(xs), (sort_ascending(delete_smallest(xs))))
+  }
+  
 // Returns an element at an index from the list
 // if there is an element at that index
 //   returns Maybe.some!(element)
 // else
 //   returns Maybe.none!
 get<A: Type>(idx: Nat, xs: List<A>): Maybe<A>
-  ?g
+  case xs {
+    nil: Maybe.none<A>
+    cons:
+      case idx {
+        zero: Maybe.some<A>(xs.head)
+        succ: get<A>(idx.pred, xs.tail)
+                  
+      }
+  }
 
 // Removes all elements that does not match a condition
 // List.filter<Nat>(Nat.odd, [1, 2, 3, 4, 5]) = [1, 3, 5]
 filter<A: Type>(f: A -> Bool, xs: List<A>): List<A>
-  ?f
-  
+  case xs {
+    nil: List.nil<A>
+    cons: 
+      case f(xs.head) {
+        false: filter<A>(f)(xs.tail)
+        true : List.cons<A>(xs.head, filter!(f)(xs.tail))
+      }
+  } 
+
 
 ex_09: IO<Unit>
   IO {
