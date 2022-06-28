@@ -11,7 +11,6 @@ is_none(a: MaybeBool): Bool
     none: Bool.true
     some: Bool.false
   }
-   
 // Returns true if Maybe is some
 is_some(a: MaybeBool): Bool
   case a {
