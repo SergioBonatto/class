@@ -11,7 +11,6 @@ dbl(a: Nat): Nat // double
     zero: Nat.zero
     succ: Nat.succ(Nat.succ(dbl(a.pred)))
     }
-//  ?b
 
 // Addition
 add(a: Nat, b: Nat): Nat
@@ -22,7 +21,6 @@ add(a: Nat, b: Nat): Nat
             succ: Nat.succ(add(a, b.pred))
             }
   }
-//  ?a
 
 // Multiplication
 mul(a: Nat, b: Nat): Nat
@@ -33,7 +31,6 @@ mul(a: Nat, b: Nat): Nat
             succ: add(mul(a.pred, b), b)
             }
   }
-//  ?m
 
 // Subtraction
 // 4 - 5 = 0
@@ -46,7 +43,6 @@ sub(a: Nat, b: Nat): Nat
             succ: sub(a.pred, b.pred)
             }
   }
-//  ?s
 
 // Factorial
 // 4! = 24
@@ -58,7 +54,6 @@ fac(a: Nat): Nat
             succ: mul(a, fac(a.pred))
             }
   }
-//  ?f
 
 // Division
 // 1 / 2 = 0
@@ -74,7 +69,6 @@ case a {
           }
   }
 
-
 // Equal
 eql(a: Nat, b: Nat): Bool // Given 2 numbers, it returns true if the 2 are the same and false if they are different.
   case a {
@@ -87,7 +81,6 @@ eql(a: Nat, b: Nat): Bool // Given 2 numbers, it returns true if the 2 are the s
       succ: eql(a.pred, b.pred)
       }
   }
-//  ?e 
 
 // Do not use the "not" function to create the functions below
 
@@ -102,7 +95,6 @@ gtn(a: Nat, b: Nat): Bool // if A > B == True else false
             succ: gtn(a.pred, b.pred)
             }
   }
-//  ?g
 
 // Lower than
 // 1 < 2 = True
@@ -118,36 +110,6 @@ ltn(a: Nat, b: Nat): Bool // if A > B == False else true
             succ: ltn(a.pred, b.pred)
       }
   }
-//  ?l
-
-// Minimum
-// min(2, 3) = 2
-// min(4, 1) = 1
-// min(a: Nat, b: Nat): Nat // if A < B then A else B
-//  case a {
-//   zero: a
-//   succ:
-//     case b {
-//       zero: b
-//       succ: min(a.pred, b.pred)
-//     }
-//  }
-//   // ?m2
-//
-// // Maximum
-// // max(2, 3) = 3
-// // max(4, 1) = 4
-// max(a: Nat, b: Nat): Nat // if A > B then A else B
-//   case a {
-//     zero: b
-//     succ:
-//       case b{
-//         zero: a
-//         succ: max(a.pred, b.pred)
-//       }
-//   }
-//   // ?m3
-
 
 // Divides a number by two
 // 2 / 2 = 1
@@ -162,7 +124,6 @@ hlf(a: Nat): Nat
         succ: Nat.succ(hlf(a.pred.pred))
       }
   }
-// ?h
 
 // Division
 // 1 / 2 = 0
@@ -183,6 +144,41 @@ div(a: Nat, b: Nat): Nat // division
   }
 
 
+
+min(a: Nat, b: Nat): Nat // if A > B == False else true 
+  case a{
+    zero: a
+    succ:
+    case b {
+      zero: b
+      succ:
+        case ltn(a, b){
+          true: a
+          false: b
+        }
+    }
+  }
+// Maximum
+// max(2, 3) = 3
+// max(4, 1) = 4
+max(a: Nat, b: Nat): Nat // if A > B then A else B
+  case a {
+    zero: b
+    succ: case b {
+            zero: a
+            succ: Nat.succ(max(a.pred, b.pred))
+      }
+  }
+
+// Divides a number by two
+hlf(a: Nat): Nat
+  case a {
+    zero: Nat.zero
+    succ: case sub(Nat.succ(a), Nat.succ(Nat.succ(Nat.zero))) {
+            zero: Nat.zero
+            succ: Nat.succ((hlf(sub(a, Nat.succ(Nat.succ(Nat.zero))))))
+            }
+  }
 ex_04: IO<Unit>
   IO {
     Tests._04.dbl(dbl)
@@ -199,87 +195,3 @@ ex_04: IO<Unit>
     Tests._04.div(div)
   }
 
-//
-// ex_04:_
-//   let a = 4
-//   let b = 9
-//   //dbl(5)
-//   //add(a, b)
-//   //mul(a, b)
-//   //sub(b, a)
-//   fac(9)
-//   //eql(b, a)
-//   //gtn(a, b)
-//   ltn(b, a)
-//   //ltn(b, a)
-
-// Minimum
-// min(2, 3) = 2
-// min(4, 1) = 1
-//menor(a: Nat, b: Nat): Nat // if A < B then A else B
-//  case a {
-//    zero: b
-//   succ: case b {
-//            zero: a
-//            succ: menor(a.pred, b.pred)
-//      } 
-//  }
-
-
-min(a: Nat, b: Nat): Nat // if A > B == False else true 
-  case a{
-    zero: a
-    succ:
-    case b {
-      zero: b
-      succ:
-        case ltn(a, b){
-          true: a
-          false: b
-        }
-    }
-  }
-
-// ?m2
-
-// Maximum
-// max(2, 3) = 3
-// max(4, 1) = 4
-max(a: Nat, b: Nat): Nat // if A > B then A else B
-  case a {
-    zero: b
-    succ: case b {
-            zero: a
-            succ: Nat.succ(max(a.pred, b.pred))
-      }
-  }
-//  ?m3
-
-
-// Divides a number by two
-hlf(a: Nat): Nat
-  case a {
-    zero: Nat.zero
-    succ: case sub(Nat.succ(a), Nat.succ(Nat.succ(Nat.zero))) {
-            zero: Nat.zero
-            succ: Nat.succ((hlf(sub(a, Nat.succ(Nat.succ(Nat.zero))))))
-            }
-  }
-//  ?h
-
-
-// ex_04:_
-//   let a = 4
-//   let b = 299
-//   //dbl(5)
-//   //add(a, b)
-//   //mul(a, b)
-//   //sub(b, a)
-//   //fac(9)
-//   //eql(b, a)
-//   //gtn(a, b)
-//   ltn(b, a)
-//   //ltn(b, a)
-//   min(a, b)
-//   //max(a, b)
-//   //hlf(9)

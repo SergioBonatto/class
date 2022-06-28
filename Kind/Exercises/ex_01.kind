@@ -40,13 +40,7 @@ eql(a: MaybeBool, b: MaybeBool): Bool
     }
   }
   }
-// case a b {
-//     none none: Bool.true
-//     some some: Bool.true
-//     none some: Bool.false
-//     some none: Bool.false
-//   }
-//
+
 // Returns the value inside the MaybeBool.
 // If there is no value contained, returns v instead
 extract(a: MaybeBool, v: Bool): Bool
@@ -54,17 +48,6 @@ extract(a: MaybeBool, v: Bool): Bool
     none: v
     some: a.value
   }
-  // case a b {
-  //   none none: Bool.true
-  //   some some: case a.value {
-  //     true: b.value
-  //     false: case b.value {
-  //       true:  Bool.false
-  //       false: Bool.true
-  //     }
-  //   }
-  // } default Bool.false
-//  ?c
 
 // Returns the value inside the MaybeBool.
 // If there is no value contained, returns v instead
@@ -78,24 +61,10 @@ test_default(a: MaybeBool, v: Bool): Bool
 // create(Bool.false) -> MaybeBool(Bool.false)
 create(a:Bool): MaybeBool
   MaybeBool.some(a)
-  // case a {
-  //   false: MaybeBool.some(a)
-  //   true:  MaybeBool.some(a)
-  // }
-
+  
 // Returns the first input that is a MaybeBool.some
 // Returns MaybeBool.none if both are MaybeBool.none
 or(a: MaybeBool, b: MaybeBool) : MaybeBool 
-  // case a {
-  //   none: case b{
-  //     none: MaybeBool.none
-  //     some: MaybeBool.soma(b.value)
-  //   }
-  //   some: case b{
-  //     none: MaybeBool.soma(a.value)
-  //     some: MaybeBool.soma(a.value)
-  //   }
-  // }
   case a b {
     none none: MaybeBool.none
     none some: MaybeBool.some(b.value)
@@ -110,37 +79,4 @@ ex_01: IO<Unit>
     Tests._01.create(create)
     Tests._01.or(or)
   }
-// let a = MaybeBool.some(Bool.true)
-// let b = MaybeBool.some(Bool.false)
-// let a = create(Bool.true)
-// let b = create(Bool.false)
-// List.show!(MaybeBool.show, [or(a,b)] ) | "<- MaybeBool ## Bool ->" | 
-// List.show!(     Bool.show, [eql(a,b)])      
-// or(a,b)
-// eql(a,b)
-//   case a {
-//     none: case b {
-//       none: MaybeBool.none
-//       some: MaybeBool.some(b.value)
-//       }
-//     some: case b {
-//             none: MaybeBool.some(a.value)
-//             some: MaybeBool.some(b.value)
-//
-//       }
-//   }
-// //  ?f
-//
-//
-// ex_01:_  //MaybeBool
-//   let a = MaybeBool.none
-//   let b = MaybeBool.none
-//   //is_none(a)  // Returns true if Maybe is none
-//   //is_some(b)  // Returns true if Maybe is some
-//   //eql(a, b)   // Returns true if both inputs are identical
-//   //test_default(a)  // Returns the value inside the MaybeBool.
-//   //create(false)   // Create a MaybeBool from a Boolean
-//   or(a, b)    // Returns the first input that is a MaybeBool.some
-//     //MaybeBool.show(a)
-//
 

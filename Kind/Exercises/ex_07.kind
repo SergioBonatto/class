@@ -296,7 +296,6 @@ zip<A: Type, B: Type>(xs: List<A>, ys: List<B>): List<Pair<A,B>>
             cons: List.cons!(Pair.new!!(xs.head, ys.head), zip!!(xs.tail, ys.tail))
            }
   }
-//  ?a
 
 // Returns the smallest element of a List
 
@@ -337,7 +336,6 @@ smallest(xs: List<Nat>): Nat
                     }
            }
   }
-//  ?s
 
 // Roubalheira 2, o inimigo agora é outro
 // resgatei a função eql do ex_04 e usei
@@ -370,6 +368,7 @@ eql(a: Nat, b: Nat): Bool // Given 2 numbers, it returns true if the 2 are the s
 // função com a head da tail
 
 // Returns the same list without the smallest element
+<<<<<<< HEAD
 // delete_smallest(xs: List<Nat>): List<Nat>
 //   case xs {
 //     nil: List.nil!
@@ -395,6 +394,31 @@ eql(a: Nat, b: Nat): Bool // Given 2 numbers, it returns true if the 2 are the s
 //     // List.cons!(smallest(xs), sort_ascending(xs.tail))
 //   }
 // //  ?a
+=======
+delete_smallest(xs: List<Nat>): List<Nat>
+  case xs {
+    nil: List.nil!
+    cons: case xs.tail {
+            nil: List.nil!
+            cons: case eql(xs.head, smallest(xs)){
+                    true: xs.tail
+                    false: List.cons!(xs.head, delete_smallest(xs.tail))
+                   }
+            }
+  }
+
+// Returns the same list, in ascending order
+sort_ascending(xs: List<Nat>): List<Nat>
+  case xs {
+    nil: List.nil!
+    cons: case eql(xs.head, smallest(xs)) {
+            true: List.cons!(xs.head, sort_ascending(xs.tail) )
+            false: sort_ascending(List.cons!(// TERMINAR AQUI!!!!! )) 
+           }
+
+    // List.cons!(smallest(xs), sort_ascending(xs.tail))
+  }
+>>>>>>> 20cc347 (ex00 ao ex07 alterado outra vez)
 
 // Returns an element at an index from the list
 // if there is an element at that index

@@ -6,7 +6,6 @@ type Inte {
   pos(num: Pos)
 }
 
-<<<<<<< HEAD
 // Positive Numbers
 type Pos { 
   zero
@@ -30,14 +29,13 @@ neg_succ(n: Neg): Neg
 
 // Functions for negative numbers to help testing 
 // Do not edit those functions
-=======
+
 // Returns the list without the first element
 tail<A: Type>(xs: List<A>): List<A>
   case xs {
     nil: List.nil!
     cons: xs.tail
   }
-//  ?a
 
 // Returns the length of a list
 length<A: Type>(xs: List<A>): Nat
@@ -45,7 +43,6 @@ length<A: Type>(xs: List<A>): Nat
     nil: Nat.zero
     cons: Nat.succ(length!(xs.tail))
   }
-//  ?a
 
 // Concatenates two lists
 concat<A: Type>(xs: List<A>, ys: List<A>): List<A>
@@ -56,7 +53,6 @@ concat<A: Type>(xs: List<A>, ys: List<A>): List<A>
            cons: List.cons!(xs.head, concat!(xs.tail, ys))
          }
   }
-//  ?a
 
 // Applies a function to all elements of a list
 map<A: Type, B: Type>(fn: A -> B, xs: List<A>): List<B>
@@ -64,11 +60,6 @@ map<A: Type, B: Type>(fn: A -> B, xs: List<A>): List<B>
     nil: List.nil!
     cons: List.cons!(fn(xs.head), map!!(fn, xs.tail))
   }
-//  ?a
-<<<<<<< HEAD
->>>>>>> 1b0a939 (add ex_06)
-=======
->>>>>>> 9a2f0b8 (Add files via upload)
 
 // Converts Neg to Nat
 neg_to_nat(n: Neg): Nat
@@ -88,7 +79,6 @@ nat_to_neg_aux(n: Nat): Neg
     succ: Neg.pred(nat_to_neg_aux(n.pred))
   }
 
-<<<<<<< HEAD
 // Converts Pos to Nat
 pos_to_nat(n: Pos): Nat
   case n { 
@@ -236,28 +226,9 @@ ex_06: IO<Unit>
     Tests._06.hlf(hlf)
     Tests._06.div(div)
   }
-=======
 reverse.go<A: Type>(new_list: List<A>, old_list: List<A>): List<A>
   case old_list {
     nil: new_list
     cons: reverse.go!(List.cons!(old_list.head, new_list), old_list.tail)
   }
 
-//  ?r
-
-ex_06:_
-  let a = [1, 2, 3, 4]
-  let b = [5, 6, 7]
-  //tail!(a)
-  //length!(a)]
-  //List.show!(Nat.show, concat!(a, b))
-  //List.show!(Nat.show, map!!(Nat.add(2), a))
-  List.show!(Nat.show, reverse!(a))
-
-
-
-
-<<<<<<< HEAD
->>>>>>> 1b0a939 (add ex_06)
-=======
->>>>>>> 9a2f0b8 (Add files via upload)
