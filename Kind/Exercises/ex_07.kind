@@ -428,12 +428,17 @@ get<A: Type>(idx: Nat, xs: List<A>): Maybe<A>
           }
     }
 
-//  ?g
-
 // Removes all elements that does not match a condition
 // List.filter<Nat>(Nat.odd, [1, 2, 3, 4, 5]) = [1, 3, 5]
-//filter<A: Type>(f: A -> Bool, xs: List<A>): List<A>
-//  ?f
+filter<A: Type>(f: A -> Bool, xs: List<A>): List<A>
+  case xs {
+    nil: List.nil!
+    cons: case f(xs.head) {
+            false: filter!(f)(xs.tail)
+            true : List.cons!(xs.head, filter!(f)(xs.tail))
+           }
+  }
+
 ex_07: IO<Unit>
   IO {
     Tests._07.is_empty(is_empty)
@@ -451,5 +456,4 @@ ex_07: IO<Unit>
     Tests._07.drop(drop)
     Tests._07.take(take)
   }
-
 
