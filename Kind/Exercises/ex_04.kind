@@ -60,17 +60,13 @@ fac(a: Nat): Nat
   }
 //  ?f
 
-<<<<<<< HEAD
-=======
 // Division
 // 1 / 2 = 0
 // x / 0 = 0
 // 5 / 2 = 2
 //div(a: Nat, b: Nat): Nat // division
   
-//  ?d
 
->>>>>>> e5f1f58 (Add files via upload)
 // Equal
 eql(a: Nat, b: Nat): Bool // Given 2 numbers, it returns true if the 2 are the same and false if they are different.
   case a {
@@ -116,20 +112,33 @@ ltn(a: Nat, b: Nat): Bool // if A > B == False else true
   }
 //  ?l
 
-<<<<<<< HEAD
 // Minimum
 // min(2, 3) = 2
 // min(4, 1) = 1
 min(a: Nat, b: Nat): Nat // if A < B then A else B
-  
-  ?m2
+ case a {
+  zero: a
+  succ: 
+    case b {
+      zero: b
+      succ: min(a.pred, b.pred)
+    }
+ }
+  // ?m2
 
 // Maximum
 // max(2, 3) = 3
 // max(4, 1) = 4
 max(a: Nat, b: Nat): Nat // if A > B then A else B
-  
-  ?m3
+  case a {
+    zero: b
+    succ: 
+      case b{
+        zero: a
+        succ: max(a.pred, b.pred)
+      }
+  }
+  // ?m3
 
 
 // Divides a number by two
@@ -137,15 +146,33 @@ max(a: Nat, b: Nat): Nat // if A > B then A else B
 // 5 / 2 = 2
 // 1 / 2 = 0
 hlf(a: Nat): Nat
-  ?h
+  case a {
+    zero: a
+    succ: 
+      case a.pred{
+        zero: Nat.zero
+        succ: Nat.succ(hlf(a.pred.pred))
+      }
+  }
+// ?h
 
 // Division
 // 1 / 2 = 0
 // x / 0 = 0
 // 5 / 2 = 2
 div(a: Nat, b: Nat): Nat // division
-  
-  ?d
+  case a {
+    zero: Nat.zero
+    succ: 
+      case b{
+        zero: Nat.zero
+        succ: 
+          case b.pred{
+            zero: a
+            succ: Nat.succ(div(a.pred, b.pred))
+          }
+      }
+  }
 
 
 ex_04: IO<Unit>
@@ -163,18 +190,17 @@ ex_04: IO<Unit>
     Tests._04.hlf(hlf)
     Tests._04.div(div)
   }
-=======
 
-
-ex_04:_
-  let a = 4
-  let b = 9
-  //dbl(5)
-  //add(a, b)
-  //mul(a, b)
-  //sub(b, a)
-  //fac(4)
-  //eql(b, a)
-  //gtn(a, b)
-  ltn(b, a)
->>>>>>> e5f1f58 (Add files via upload)
+//
+// ex_04:_
+//   let a = 4
+//   let b = 9
+//   //dbl(5)
+//   //add(a, b)
+//   //mul(a, b)
+//   //sub(b, a)
+//   fac(9)
+//   //eql(b, a)
+//   //gtn(a, b)
+//   ltn(b, a)
+//   //ltn(b, a)
