@@ -10,11 +10,6 @@ type Bool {
 is_true(a: Bool): Bool
   a 
 
-  // case a {
-  //   true: Bool.true
-  //   false: Bool.false
-  // }
-
 // Is false
 // Returns true if input is false
 is_false(a: Bool): Bool
@@ -22,6 +17,7 @@ is_false(a: Bool): Bool
     false: Bool.true
     true: Bool.false
   }
+//  ?i
 
 // Negation
 // Returns the opposite of a Bool
@@ -35,12 +31,6 @@ neg(b: Bool): Bool
 // Returns true if both inputs are true
 and(a: Bool, b: Bool): Bool
   case a {
-  //   false: Bool.false
-  //   true: case b {
-  //           true: Bool.true
-  //           false: Bool.false
-  //            }
-  // }
     false: a
     true: b
     }
@@ -48,13 +38,6 @@ and(a: Bool, b: Bool): Bool
 // Or
 // Returs true if any input is true
 or(a: Bool, b: Bool): Bool
-  // case a {
-  //   true: Bool.true
-  //   false: case b {
-  //            true: Bool.true
-  //            false: Bool.false
-  //           }
-  // }
   case a {  
     true: a
     false:b
@@ -65,12 +48,15 @@ or(a: Bool, b: Bool): Bool
 eql(a: Bool, b: Bool): Bool
   case a {
     true: b
+    true: case b {
+            true: Bool.true
+            false: Bool.false
+      }
     false: case b {
             false: Bool.true
             true: Bool.false
        }
-  } 
-
+  }
 // Xor
 // Returns true if both inputs are different
 xor(a: Bool, b: Bool): Bool
@@ -79,13 +65,8 @@ xor(a: Bool, b: Bool): Bool
             false: Bool.true
             true: Bool.false
           }
-    // false: case b {
-    //         false: Bool.false
-    //         true: Bool.true
-    //    }
-  
     false: b
-    }
+  }
 
 // Nor
 // Returns true if both inputs are false
@@ -121,7 +102,6 @@ xnor(a: Bool, b: Bool): Bool
   }
 
 
-
 ex_00: IO<Unit>
   IO {
     Tests._00.is_true(is_true)
@@ -135,3 +115,4 @@ ex_00: IO<Unit>
     Tests._00.nand(nand)
     Tests._00.xnor(xnor)
   }
+
