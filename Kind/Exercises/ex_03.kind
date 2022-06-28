@@ -32,6 +32,4 @@ ex_03: _
     Tests._03.dec(dec)
     Tests._03.is_zero(is_zero)
   }
-  
-
 
