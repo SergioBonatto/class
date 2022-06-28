@@ -17,35 +17,21 @@ snd(pair: PairBool): Bool
   }
 
 // Returns true if both elements of a PairBool are identical
-eql_elements(pair: PairBool): Bool 
-  case pair{
-    new: case pair.fst{
-      true: pair.snd
-      false: case pair.snd{
-        true: Bool.false
-        false: Bool.true
-      }
-    }
-  }
-
-// Returns the second element of a pair
-snd(pair: PairBool): Bool
-  case pair {
-    new: pair.snd
-  }
-
-// Returns true if both elements of a PairBool are identical
 eql_elements(a: PairBool): Bool 
   case a {
     new: case a.fst {
            true: a.snd
+           true: case a.snd {
+                   true:  Bool.true
+                   false: Bool.false
+      }
            false: case a.snd {
                    true:  Bool.false
                    false: Bool.true
        }
      }
   }
-
+  
 // Returns true if both Pairs are equal 
 // eql(PairBool.new(false, false), PairBool.new(true, true)) -> false 
 // eql(PairBool.new(true, false), PairBool.new(true, false)) -> true
@@ -125,7 +111,7 @@ create(a: Bool, b: Bool): PairBool
 neg(pair: PairBool): PairBool
   case pair {
     new: case pair.fst pair.snd {
-           true  true:  PairBool.new(false, false)
+           true   true: PairBool.new(false, false)
            false false: PairBool.new(true, true)
      } default PairBool.new(pair.snd, pair.fst)
   }
