@@ -131,6 +131,36 @@ int(sign: Bool, num: Nat): Inte
         succ: Inte.neg(nat_to_neg(num))
       }
   }
+// Returns the list without the first element
+tail<A: Type>(xs: List<A>): List<A>
+  case xs {
+    nil: List.nil!
+    cons: xs.tail
+  }
+
+// Returns the length of a list
+length<A: Type>(xs: List<A>): Nat
+  case xs {
+    nil: Nat.zero
+    cons: Nat.succ(length!(xs.tail))
+  }
+
+// Concatenates two lists
+concat<A: Type>(xs: List<A>, ys: List<A>): List<A>
+  case xs {
+   nil: ys
+   cons: case ys {
+           nil: xs
+           cons: List.cons!(xs.head, concat!(xs.tail, ys))
+         }
+  }
+
+// Applies a function to all elements of a list
+map<A: Type, B: Type>(fn: A -> B, xs: List<A>): List<B>
+  case xs {
+    nil: List.nil!
+    cons: List.cons!(fn(xs.head), map!!(fn, xs.tail))
+  }
 
 
 reverse.go<A: Type>(new_list: List<A>, old_list: List<A>): List<A>
@@ -145,7 +175,7 @@ pos_show(n: Pos): String
 
 
 // Integers
-type Inte { 
+type Inte {
   neg(num: Neg)
   pos(num: Pos)
 }
@@ -153,8 +183,8 @@ type Inte {
 // Convertss Int to String
 inte_show(n: Inte): String
   case n {
-    neg: neg_show(n.num) 
-    pos: pos_show(n.num) 
+    neg: neg_show(n.num)
+    pos: pos_show(n.num)
   }
 
 
@@ -166,7 +196,7 @@ inte_to_nat(a: Inte): Nat
   }
 
 // Creates an int
-// true  = Positive 
+// true  = Positive
 // false = Negative
 int(sign: Bool, num: Nat): Inte
   case sign {
@@ -177,8 +207,8 @@ int(sign: Bool, num: Nat): Inte
         succ: Inte.neg(nat_to_neg(num))
       }
   }
-
-
+//
+//
 // Exercises:
 
 // Increments an Integer
