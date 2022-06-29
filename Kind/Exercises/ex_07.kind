@@ -164,10 +164,89 @@ or(a: Bits, b: Bits): Bits
          e: Bits.i(or(a.pred, b))
          o: Bits.i(or(a.pred, b.pred))
          i: Bits.i(or(a.pred, b.pred))
+       }
    }
+// caso xs seja vazio, retorna zero
+// caso tenha algo
+// se não tiver um corpo/tail, retorna a cabeça
+// se tirver uma tail, eu verifico se a
+// head é maior que a head da tail
+// se for, a função roda de novo
+// exluindo a head
+// se não for, eu crio uma nova lista só
+// com a head e a tail da tail,
+// excluindo a head da tail
+// e rodo a função nessa nova lista
+
+smallest(xs: List<Nat>): Nat
+  case xs {
+    nil: Nat.zero
+    cons: case xs.tail {
+            nil: xs.head
+            cons: case Nat.gtn(xs.head, xs.tail.head) {
+                    true: smallest(xs.tail)
+                    false: smallest(List.cons!(xs.head, xs.tail.tail))
+                    }
+           }
+  }
+//  ?s
+
+// Roubalheira 2, o inimigo agora é outro
+// resgatei a função eql do ex_04 e usei
+// junto com o smallest para a função
+// delete_smallest
+
+// Equal
+eql(a: Nat, b: Nat): Bool // Given 2 numbers, it returns true if the 2 are the same and false if they are different.
+  case a {
+    zero: case b {
+      zero: Bool.true
+      succ: Bool.false
+      }
+    succ: case b {
+      zero: Bool.false
+      succ: eql(a.pred, b.pred)
+      }
   }
 
 
+// agora onde endoidei
+// vejo se a lista é vazia, se for, retorna vazio
+// caso não seja, vejo se há mais de um elemento
+// caso não tenha, retorna vazio
+// caso tenha mais de um elemento, vejo
+// se a head é igual ao menor elemento da lista
+// caso seja, retorno só a tail
+// caso não seja, construo uma nova
+// lista com a head mais o resultado da
+// função com a head da tail
+
+// Returns the same list without the smallest element
+delete_smallest(xs: List<Nat>): List<Nat>
+  case xs {
+    nil: List.nil!
+    cons: case xs.tail {
+            nil: List.nil!
+            cons: case eql(xs.head, smallest(xs)){
+                    true: xs.tail
+                    false: List.cons!(xs.head, delete_smallest(xs.tail))
+                   }
+            }
+  }
+
+// Returns the same list, in ascending order
+// sort_ascending(xs: List<Nat>): List<Nat>
+//   case xs {
+//     nil: List.nil!
+//     cons: case eql(xs.head, smallest(xs)) {
+//             true: List.cons!(xs.head, sort_ascending(xs.tail) )
+//             false: sort_ascending(List.cons!(// TERMINAR AQUI!!!!! ))
+//            }
+//
+//     // List.cons!(smallest(xs), sort_ascending(xs.tail))
+//   }
+// //  ?a
+//
 //Verifies if both Bit structures are equal
 
 //eql(a,b) -> Bool.false
@@ -296,11 +375,12 @@ ex_07: IO<Unit>
     Tests._07.concat(concat)
     Tests._07.add(add)
     Tests._07.and(and)
-    Tests._07.eql(eql)
+    // Tests._07.eql(eql)
     Tests._07.reverse(reverse)
     Tests._07.length(length)
     Tests._07.mul(mul)
     Tests._07.drop(drop)
     Tests._07.take(take)
 }
+
 
