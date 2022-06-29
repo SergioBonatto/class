@@ -17,14 +17,13 @@ is_false(a: Bool): Bool
     false: Bool.true
     true: Bool.false
   }
-//  ?i
 
 // Negation
 // Returns the opposite of a Bool
 neg(b: Bool): Bool 
   case b {
-    true: Bool.false
     false: Bool.true
+    true : Bool.false
   }
 
 // And
@@ -39,43 +38,43 @@ and(a: Bool, b: Bool): Bool
 // Returs true if any input is true
 or(a: Bool, b: Bool): Bool
   case a {  
-    true: a
-    false:b
-    }
+    false: b
+    true : a
+  }
 
 // Equal
 // Returs true if both inputs are identical
 eql(a: Bool, b: Bool): Bool
   case a {
-    true: b
-    true: case b {
-            true: Bool.true
-            false: Bool.false
+    false: 
+      case b {
+        false: Bool.true
+        true : Bool.false
       }
-    false: case b {
-            false: Bool.true
-            true: Bool.false
-       }
-  }
+    true: b
+  } 
+
 // Xor
 // Returns true if both inputs are different
 xor(a: Bool, b: Bool): Bool
   case a {
-    true: case b {
-            false: Bool.true
-            true: Bool.false
-          }
     false: b
+    true : 
+      case b {
+        false: Bool.true
+        true : Bool.false
+      }
   }
 
 // Nor
 // Returns true if both inputs are false
 nor(a: Bool, b: Bool): Bool
   case a {
-    false: case b {
-             true: Bool.false
-             false: Bool.true
-       }
+    false: 
+      case b {
+        false: Bool.true
+        true : Bool.false
+      }
     true: Bool.false
   }
 
@@ -83,22 +82,24 @@ nor(a: Bool, b: Bool): Bool
 // Returns false only if both inputs are true
 nand(a: Bool, b: Bool): Bool
   case a {
-    true: case b {
-            true: Bool.false
-            false: Bool.true
-      }
     false: Bool.true
+    true : 
+      case b {
+        false: Bool.true
+        true : Bool.false
+      }
   }
 
 // Xnor
 // Returns true if both inputs are identical
 xnor(a: Bool, b: Bool): Bool
   case a {
-    true: b
-    false: case b {
-             true: Bool.false
-             false: Bool.true
-       }
+    false: 
+      case b {
+        false: Bool.true
+        true : Bool.false
+      }
+    true : b
   }
 
 

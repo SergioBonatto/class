@@ -6,7 +6,7 @@ type PairBool {
 
 // Returns the first element of a pair
 fst(pair: PairBool): Bool
-  case pair{
+  case pair {
     new: pair.fst
   }
 
@@ -32,6 +32,10 @@ eql_elements(a: PairBool): Bool
      }
   }
   
+// Creates a PairBool from 2 Booleans
+create(a: Bool, b: Bool): PairBool
+  PairBool.new(a,b)
+
 // Returns true if both Pairs are equal 
 // eql(PairBool.new(false, false), PairBool.new(true, true)) -> false 
 // eql(PairBool.new(true, false), PairBool.new(true, false)) -> true
@@ -116,6 +120,20 @@ neg(pair: PairBool): PairBool
      } default PairBool.new(pair.snd, pair.fst)
   }
 
+// Returns true if both elements of a PairBool are identical
+eql_elements(pair: PairBool): Bool 
+  case pair{
+    new: 
+      case pair.fst{
+        false: 
+          case pair.snd{
+            false: Bool.true
+            true : Bool.false
+          }
+        true : pair.snd
+      }
+  }
+
 
 // Inverts the 2 elements of a PairBool
 swap(pair: PairBool): PairBool 
@@ -123,15 +141,55 @@ swap(pair: PairBool): PairBool
     new: PairBool.new(pair.snd, pair.fst)
   }
 
+// Returns true if both Pairs are different
+// eql(PairBool.new(false, false), PairBool.new(true, true)) -> true 
+// eql(PairBool.new(true, false), PairBool.new(true, false)) -> false
+xor(a: PairBool, b: PairBool): Bool
+  case a b {
+    new new: 
+      case a.fst a.snd {
+        true true: 
+          case b.fst b.snd {
+            true true: Bool.false
+          } default Bool.true
+        false false: 
+          case b.fst b.snd {
+            false false: Bool.false
+          } default Bool.true
+          true false: 
+            case b.fst b.snd {
+              true false: Bool.false
+            } default Bool.true
+          false true: 
+            case b.fst b.snd {
+              false true: Bool.false
+            } default Bool.true
+      } default Bool.true 
+  } 
+  
+
+// Inverts the values of a PairBool
+// neg(PairBool.new(false, false) -> PairBool.new(true, true)
+// neg(PairBool.new(false, true) -> PairBool.new(true, false)
+agoraneg(pair: PairBool): PairBool
+  case pair {
+    new: 
+      case pair.fst pair.snd {
+        true  true : PairBool.new(false, false)
+        false false: PairBool.new(true, true)
+      } default PairBool.new(pair.snd, pair.fst)
+  }
+
+
 ex_02: IO<Unit>
   IO {
     Tests._02.fst(fst)
     Tests._02.snd(snd)
     Tests._02.eql_elements(eql_elements)
     Tests._02.eql(eql)
-    Tests._02.not_eql(not_eql)
+    // Tests._02.not_eql(not_eql)
     Tests._02.create(create)
-    Tests._02.neg(neg)
+    // Tests._02.neg(neg)
     Tests._02.swap(swap)
   }
 

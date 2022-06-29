@@ -1,0 +1,26 @@
+to_nat(xs: String): Maybe<Nat>
+  case xs{ 
+    nil : Maybe.none<Nat>
+    cons: to_nat.go(xs, 0)
+  }
+to_nat.go(xs: String, acum: Nat): Maybe<Nat>
+  case xs {
+    nil : Maybe.some<Nat>(acum)
+    cons: 
+      case Char.is_digit(xs.head){
+        false: Maybe.none<Nat>
+        true : 
+          let acc = Nat.add(Nat.mul(acum, 10), to_digit(xs.head))
+          to_nat.go(xs.tail, acc)
+      }
+  }
+
+to_digit(x: Char): Nat
+  Nat.sub(U16.to_nat(x), 48)
+
+string_to_nat:_
+  let a = "1234"
+  to_nat(a)
+
+
+

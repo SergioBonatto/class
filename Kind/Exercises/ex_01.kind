@@ -6,38 +6,61 @@ type MaybeBool {
   some(value: Bool)
  }
  // Returns true if Maybe is none
+ 
+MaybeBool.show(m : MaybeBool) : String
+  case m {
+      none : "none()"
+      some : "some" | "(" | Bool.show(m.value) | ")" 
+  } 
+
+// Returns true if Maybe is none
 is_none(a: MaybeBool): Bool
   case a {
     none: Bool.true
     some: Bool.false
   }
+
 // Returns true if Maybe is some
 is_some(a: MaybeBool): Bool
   case a {
     none: Bool.false
     some: Bool.true
   }
+
 // Returns true if both inputs are identical
 // eql(MaybeBool.none,             MaybeBool.none            ) -> true
 // eql(MaybeBool.some(Bool.false), MaybeBool.some(Bool.false)) -> true
+eqlB(a: Bool, b: Bool): Bool
+  case a {
+    false: 
+      case b{
+        false: true
+        true : false
+      }
+    true: b 
+  }
 
 eql(a: MaybeBool, b: MaybeBool): Bool
   let c = b
   case a {
-    none: case b{
-      none: Bool.true
-      some: Bool.false
-    }
-    some: case c{
-      none: Bool.false
-      some: case a.value {
-        true: c.value
-        false: case c.value{
-          true: Bool.false
-          false: Bool.true
+    none: 
+      case b{
+        none: Bool.true
+        some: Bool.false
       }
-    }
-  }
+    some: 
+      case c{
+        none: Bool.false
+        some: 
+          case a.value {
+            false: 
+              case c.value{
+                false: Bool.true
+                true : Bool.false
+              }
+            true : c.value
+          }
+      }
   }
 
 // Returns the value inside the MaybeBool.
@@ -68,7 +91,7 @@ or(a: MaybeBool, b: MaybeBool) : MaybeBool
   case a b {
     none none: MaybeBool.none
     none some: MaybeBool.some(b.value)
-  }default MaybeBool.some(a.value)
+  }    default MaybeBool.some(a.value)
 
 ex_01: IO<Unit>
   IO {

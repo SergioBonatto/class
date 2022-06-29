@@ -1,0 +1,68 @@
+fat(n: Nat): Nat
+  case n { 
+    zero: Nat.zero
+    succ: 
+      case n.pred {
+        zero: Nat.succ(Nat.zero)
+        succ: mul(n, fat(n.pred))
+    }
+  }
+
+
+add(a: Nat, b: Nat): Nat
+  case a {
+    zero: b
+    succ: 
+      case b{
+        zero: a
+        succ: Nat.succ(add(a, b.pred))
+      }
+  }
+
+
+mul(a: Nat, b: Nat): Nat
+  case a {
+    zero: Nat.zero
+    succ: 
+      case b {
+        zero: Nat.zero
+        succ: add(mul(a.pred, b), b)
+      }
+  }
+
+pot(a: Nat, b: Nat): Nat
+  case a {
+    zero: Nat.zero
+    succ:
+      case b {
+        zero: Nat.succ(Nat.zero)
+        succ: mul(a, (pot(a, b.pred)))
+    }
+  }
+
+Nat.pow(x: Nat, y: Nat): Nat
+  case y {
+    zero:
+      Nat.succ(Nat.zero)
+    succ:
+      Nat.mul(x, Nat.pow(x,y.pred))
+  }
+
+
+fibo(a: Nat): List<Nat>
+  fibo.go(a, a)
+
+fibo.go(a: Nat, b: Nat): List<Nat>
+  case a {
+    zero: [a]
+    succ:
+      let b = a 
+      List.cons<Nat>(a, b, fibo(a, a.pred))
+  }
+
+
+fibo:_
+  let a = 4
+  let b = 5
+  // Nat.show(fat(4))
+  Nat.show(pot(a, b))

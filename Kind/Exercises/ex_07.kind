@@ -1,5 +1,5 @@
 //Bits
-
+// Basic exercises involving Lists
 //File for exercises in Bits
 
 //e = empty
@@ -16,7 +16,6 @@ type Bits {
 //c = Bits.o(Bits.o(Bits.i(Bits.i(Bits.e))))
 //d = Bits.i(Bits.i(Bits.i(Bits.i(Bits.e))))
 
-
 //Verifies if it is an Empty Bit
 
 //is_empty(a)      -> Bool.false
@@ -29,7 +28,6 @@ is_empty(b: Bits): Bool
     e: Bool.true
   } default Bool.false
 
-
 //Gets the Tail of a Bits structure
 
 //tail(a) -> Bits.i(Bits.e)
@@ -41,22 +39,18 @@ tail(b: Bits): Bits
     e: b
   } default b.pred
 
-
 //Negates all Bits
 
 //notb(a) -> Bits.o(Bits.o(Bits.e))
 //notb(b) -> Bits.i(Bits.o(Bits.o(Bits.e)))
 //notb(c) -> Bits.i(Bits.i(Bits.o(Bits.o(Bits.e))))
-//notb(d) -> Bits.o(Bits.o(Bits.o(Bits.o(Bits.e))))
+//nob(d) -> Bits.o(Bits.o(Bits.o(Bits.o(Bits.e))))
 notb(b: Bits): Bits
   case b {
     e: b
     o: Bits.i(notb(b.pred))
     i: Bits.o(notb(b.pred))
   }
-
-
-
 
 //Increments a Bit
 
@@ -71,13 +65,22 @@ inc(b: Bits): Bits
     i: Bits.o(inc(b.pred))
   }
 
-
 //Decrements a Bit
 
 //dec(a) -> Bits.o(Bits.i(Bits.e))
 //dec(b) -> Bits.i(Bits.o(Bits.i(Bits.e)))
 //dec(c) -> Bits.i(Bits.i(Bits.o(Bits.i(Bits.e))))
 //dec(d) -> Bits.o(Bits.i(Bits.i(Bits.i(Bits.e))))
+dec_go(b: Bits): Bits
+  case b {
+    e: b
+    o: case b.pred{
+        e: Bits.e  
+       } default Bits.i(dec(b.pred))
+    i: case b.pred {
+        e: Bits.o(Bits.e)
+       } default Bits.o(b.pred)
+  }
 dec(b: Bits): Bits
   fix_bit(dec_go(b))
 
@@ -91,8 +94,6 @@ dec_go(b: Bits): Bits
         e: Bits.o(Bits.e)
        } default Bits.o(b.pred)
   }
-
-
 
 //Concatenate two Bits structures
 
@@ -109,7 +110,6 @@ concat(a: Bits, b: Bits): Bits
     o: Bits.o(concat(a.pred, b))
     i: Bits.i(concat(a.pred, b))
   }
-
 
 //Adds two Bits structures
 
@@ -131,8 +131,6 @@ add(a: Bits, b: Bits): Bits
        }
   }
 
-
-
 //Returns Bits.i if only both bits are Bits.i
 
 //and(a,b) -> Bits.o(Bits.i(Bits.e))
@@ -145,7 +143,6 @@ and(a: Bits, b: Bits): Bits
     i o: Bits.o(and(a.pred, b.pred)) 
     i i: Bits.i(and(a.pred, b.pred))
   } default Bits.e  
-
 
 //Returns Bits.i if any of bits are Bits.i
 
@@ -166,87 +163,7 @@ or(a: Bits, b: Bits): Bits
          i: Bits.i(or(a.pred, b.pred))
        }
    }
-// caso xs seja vazio, retorna zero
-// caso tenha algo
-// se não tiver um corpo/tail, retorna a cabeça
-// se tirver uma tail, eu verifico se a
-// head é maior que a head da tail
-// se for, a função roda de novo
-// exluindo a head
-// se não for, eu crio uma nova lista só
-// com a head e a tail da tail,
-// excluindo a head da tail
-// e rodo a função nessa nova lista
 
-smallest(xs: List<Nat>): Nat
-  case xs {
-    nil: Nat.zero
-    cons: case xs.tail {
-            nil: xs.head
-            cons: case Nat.gtn(xs.head, xs.tail.head) {
-                    true: smallest(xs.tail)
-                    false: smallest(List.cons!(xs.head, xs.tail.tail))
-                    }
-           }
-  }
-//  ?s
-
-// Roubalheira 2, o inimigo agora é outro
-// resgatei a função eql do ex_04 e usei
-// junto com o smallest para a função
-// delete_smallest
-
-// Equal
-eql(a: Nat, b: Nat): Bool // Given 2 numbers, it returns true if the 2 are the same and false if they are different.
-  case a {
-    zero: case b {
-      zero: Bool.true
-      succ: Bool.false
-      }
-    succ: case b {
-      zero: Bool.false
-      succ: eql(a.pred, b.pred)
-      }
-  }
-
-
-// agora onde endoidei
-// vejo se a lista é vazia, se for, retorna vazio
-// caso não seja, vejo se há mais de um elemento
-// caso não tenha, retorna vazio
-// caso tenha mais de um elemento, vejo
-// se a head é igual ao menor elemento da lista
-// caso seja, retorno só a tail
-// caso não seja, construo uma nova
-// lista com a head mais o resultado da
-// função com a head da tail
-
-// Returns the same list without the smallest element
-delete_smallest(xs: List<Nat>): List<Nat>
-  case xs {
-    nil: List.nil!
-    cons: case xs.tail {
-            nil: List.nil!
-            cons: case eql(xs.head, smallest(xs)){
-                    true: xs.tail
-                    false: List.cons!(xs.head, delete_smallest(xs.tail))
-                   }
-            }
-  }
-
-// Returns the same list, in ascending order
-// sort_ascending(xs: List<Nat>): List<Nat>
-//   case xs {
-//     nil: List.nil!
-//     cons: case eql(xs.head, smallest(xs)) {
-//             true: List.cons!(xs.head, sort_ascending(xs.tail) )
-//             false: sort_ascending(List.cons!(// TERMINAR AQUI!!!!! ))
-//            }
-//
-//     // List.cons!(smallest(xs), sort_ascending(xs.tail))
-//   }
-// //  ?a
-//
 //Verifies if both Bit structures are equal
 
 //eql(a,b) -> Bool.false
@@ -254,7 +171,7 @@ delete_smallest(xs: List<Nat>): List<Nat>
 //eql(d,d) -> Bool.true
 eql(a: Bits, b: Bits): Bool
   case a b {
-  // FIXME: 
+  // FIXME 
     e e: Bool.true
     o o: Bool.true
     i i: Bool.true
@@ -278,9 +195,6 @@ reverse_go(b: Bits, acum: Bits): Bits
 reverse(b: Bits): Bits
   reverse_go(b, Bits.e)
 
-
-
-
 //Gets the length of the Bits structure
 
 length_go(bs: Bits, acum: Nat): Nat
@@ -290,15 +204,12 @@ length_go(bs: Bits, acum: Nat): Nat
     i: length_go(bs.pred, Nat.succ(acum))
   }
 
-
-
 //length(a) -> Nat.succ(Nat.succ(Nat.zero))
 //length(b) -> Nat.succ(Nat.succ(Nat.succ(Nat.zero)))
 //length(c) -> Nat.succ(Nat.succ(Nat.succ(Nat.succ(Nat.zero))))
 //length(d) -> Nat.succ(Nat.succ(Nat.succ(Nat.succ(Nat.zero))))
 length(bs: Bits): Nat
   length_go(bs, 0)
-
 
 
 //Multiplies two Bits structures
@@ -335,17 +246,25 @@ fix_bit(anum: Bits): Bits
 //mul(a,b) -> Bits.o(Bits.i(Bits.o(Bits.o(Bits.i(Bits.e)))))
 //mul(b,c) -> Bits.o(Bits.o(Bits.o(Bits.i(Bits.o(Bits.o(Bits.i(Bits.e)))))))
 mul(a: Bits, b: Bits): Bits
-  mul_go(a, b, Bits.e)
+  fix_bit(mulgo(a, b))
 
-
-
+mulgo(a: Bits, b: Bits): Bits
+  let anum = fix_bit(a)
+  let bnum = fix_bit(b) 
+  case a{
+    o: case a.pred{
+        e: Bits.o(Bits.e)
+        o: fix_bit(mul_go(anum, bnum, Bits.e))
+      } default reverse(fix_bit(reverse(mul_go(anum, bnum, Bits.e))))
+  } default reverse(fix_bit(reverse(mul_go(anum, bnum, Bits.e))))
+  
 //Drops a n Number of Bits starting from from the least significative bit
 
 //drop(1, a) -> Bits.i(Bits.e)
 //drop(1, b) -> Bits.i(Bits.i(Bits.e))
 //drop(1, c) -> Bits.o(Bits.i(Bits.i(Bits.e)))
 //drop(1, d) -> Bits.i(Bits.i(Bits.i(Bits.e)))
-drop(n: Nat, bs: Bits): Bits
+drop(n: Nat, bs: Bits): Bits 
   case n {
     zero: bs
     succ: drop(n.pred, tail(bs))
@@ -382,5 +301,4 @@ ex_07: IO<Unit>
     Tests._07.drop(drop)
     Tests._07.take(take)
 }
-
 
