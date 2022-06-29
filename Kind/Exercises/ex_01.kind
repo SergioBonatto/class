@@ -48,6 +48,7 @@ extract(a: MaybeBool, v: Bool): Bool
     some: a.value
   }
 
+//
 // Returns the value inside the MaybeBool.
 // If there is no value contained, returns v instead
 test_default(a: MaybeBool, v: Bool): Bool
